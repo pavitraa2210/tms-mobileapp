@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <meta name="theme-color" content="#0081C1" />
+    <title>Shipment Dashboard</title>
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link
+      rel="preload"
+      as="style"
+      href='assets/*'/>
+    <link rel="prefetch" href="assets/img/*" />
+</head>
+
+<body>
+    <!-- <div class="logo-top-login index"></div> -->
+    <!-- <div class="vector"></div> -->
+    <!-- <div class="version index">v1.33</div> -->
+    <div class="outer-circle"></div>
+    <div class="inner-truck"></div>
+    <div class="logo-text"></div>
+</body>
+<script src="assets/js/script.js"></script>
+<script>
+    
+    // console.log(/Android/i.test(navigator.userAgent))
+
+    // sets which Operating System the user is logging in from 
+    setOS();
+
+    // if there exists driver data in session/local storage then go to dashboard page.
+    if(isDriverLoggedIn()) {
+        setTimeout(function(){
+            window.location = "./dashboard.html";
+        }, 3000);   
+    }
+    // else go to login page.
+    else {
+        setTimeout(function(){
+            window.location = "./login.html";
+        }, 3000);
+    }
+</script>
+
+</html>

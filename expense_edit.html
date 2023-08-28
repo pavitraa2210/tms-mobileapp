@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+  <title>Edit Expenses</title>
+  <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <form name="myExpenseForm" id="myExpenseForm" method="POST" enctype="multipart/form-data">
+    <table style="border-collapse: collapse;">
+      <tbody>
+        <tr style="height: 64px;">
+          <td>
+            <a href="javascript:history.go(-1)" class="go-back-white">
+              <img class="img-back" alt="Go back" src="assets/img/go-back.svg" />
+            </a>
+            <div class="order-number">
+              Edit Expenses
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody class="scroll" id="form">
+        <tr>
+          <td id="id" name="expense_id" type="hide"></td>
+        </tr>
+        <tr class="grad-container" style="top:10px;">
+          <td class="grad-container-head" style="font-size: 15px;">Vehicle Number</td>
+        </tr>
+        <tr class="field-contain" style="top:50px;">
+          <td><input class="field-input" id="vehicle" name="vehicle_number" style="font-size: 15px;"></td>
+        </tr>
+        <tr class="grad-container" style="top:100px;">
+          <td class="grad-container-head" style="font-size: 15px;">Expense Type</td>
+        </tr>
+        <tr class="field-contain" style="top:150px;">
+          <td><input class="field-input" id="expense" name="expense_type" style="font-size: 15px;"></td>
+          <div id="expense-dropdown" style="top: 220px;"></div>
+        </tr>
+        <tr class="grad-container" style="top:200px;">
+          <td class="grad-container-head" style="font-size: 15px;">Amount</td>
+        </tr>
+        <tr class="field-contain" style="top:250px;">
+          <td><input class="field-input" id="amount-number" name="amount" style="font-size: 15px;"></td>
+        </tr>
+        <tr class="grad-container" style="top:300px;">
+          <td class="grad-container-head" style="font-size: 15px;">Receipt Number</td>
+        </tr>
+        <tr class="field-contain" style="top:350px;">
+          <td><input class="field-input" id="receipt-number" name="receipt_no" style="font-size: 15px;"></td>
+        </tr>
+        <tr class="grad-container" style="top:400px;">
+          <td class="grad-container-head" style="font-size: 15px;">Trip Id</td>
+        </tr>
+        <tr class="field-contain" style="top:450px;">
+          <td><input class="field-input" id="tripid-number" name="trip_id" style="font-size: 15px;"></td>
+        </tr>
+        <tr class="grad-container" style="top:500px;">
+          <td class="grad-container-head" style="font-size: 15px;">Activity Date</td>
+        </tr>
+        <tr class="field-contain" style="top:550px;">
+          <td><input class="field-input" id="activity-number" name="activity_date" style="font-size: 15px;"></td>
+        </tr>
+        <tr class="grad-container" style="top:600px;">
+          <td class="grad-container-head" style="font-size: 15px;">Documents</td>
+        </tr>
+        <tr class="field-contain" style="top:650px;width: 335px; ">
+          <td>
+            <img id="file-number" src="" name="file-number" style="width: 8%;">
+            <input type="file" id="file" name="file" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="navigation">
+              <div class="btn" id="update">
+                <div class="text">Submit</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script>
+    // const TRIP = getSelectedTrip();
+
+    // Load data when the page is loaded
+    $(document).ready(function () {
+      load_data();
+    });
+
+
+    function load_data() {
+      var type = "";
+      getDriverExpenseData(type);
+    }
+
+    // Update the data when the "Submit" button is clicked
+    $('#update').click(function () {
+      update_data();
+    });
+
+    $('#expense').keyup(function () {
+      var user_id = 1;
+      var dropdown = document.getElementById("expense-dropdown");
+      get_expense(user_id, dropdown, this.value, "expense");
+    });
+
+    // fills the get_vehicle,get_expense list data in vehicle, expense 
+    function fill_dropdown(data, dropdown, caller_id) {
+      dropdown.innerHTML = null;
+      for (let i = 0; i < data.length; i++) {
+        dropdown.innerHTML += `
+            <div class="dropdown" onclick="selected_party(this, ${caller_id})" data="${data[i].cid} ${data[i].id}">${data[i].name}</div>
+        `;
+
+        if (i > 4)
+          break;
+      }
+    }
+
+    // clears the filled in dropdown
+    function clear_dropdown(element) {
+      console.log('clear');
+      element.innerHTML = null;
+    }
+
+    // create an object of the selected party data and proceed to assign it to the parent field
+    function selected_party(data, field) {
+      field.value = data.innerHTML
+      var name = data.innerHTML;
+      var cid = data.getAttribute("data").split(" ")[0];
+      var id = data.getAttribute("data").split(" ")[1];
+      data.parentElement.innerHTML = null;
+      var json_data = JSON.parse(JSON.stringify({
+        "id": id,
+        "name": name,
+        "cid": cid
+      }));
+      // console.log(json_data)
+      assign_data(field, json_data);
+    }
+
+    // assigns the dropdown item selected to the parent field (from where the dropdown was created)
+    function assign_data(field, data) {
+      switch (field.getAttribute("id")) {
+        case "expense":
+          expense_data = data;
+          break;
+        case "vehicleid":
+          vehicleid_data = data;
+          break;
+
+        default:
+          return;
+      }
+    }
+
+    function populate_data(data, type) {
+      // Parse the stored item from sessionStorage
+      var storedArray = JSON.parse(sessionStorage.getItem("item"));
+
+      // Set the input values to the stored data
+      $('#id').val(storedArray.expense_id);
+      $('#vehicle').val(storedArray.vehicle_number);
+      $('#expense').val(storedArray.expense_type);
+      $('#amount-number').val(storedArray.amount);
+      $('#receipt-number').val(storedArray.receipt_no);
+      $('#tripid-number').val(storedArray.trip_id);
+      $('#activity-number').val(storedArray.activity_date);
+      $('#file-number').val(storedArray["bills"]["document"]);
+      console.log(storedArray["bills"]["document"])
+
+      var fileSrc = storedArray["bills"]["document"];
+      $("#file-number").attr("src", fileSrc);
+
+      console.log("Stored data:", storedArray);
+    }
+
+    function update_data() {
+      var vehicle_id = $('#vehicle-number').val();
+      var expense_id = $('#id').val();
+      var expense_type = $('#expense').val();
+      var amount = $('#amount-number').val();
+      var trip_id = $('#tripid-number').val();
+      var activity_date = $('#activity-number').val();
+      var receipt_no = $('#receipt-number').val();
+
+      var fileInput = document.getElementById("file");
+      var file = fileInput.files[0];
+      var form = $("#myExpenseForm");
+      var formData = new FormData(form[0]);
+      if (file != undefined) {
+        formData.append('bill_doc', file[0]);
+      } else {
+        formData.append('bill_doc', 'undefined');
+      }
+      formData.append('id', expense_id);
+      console.log(formData.get('bill_doc'));
+      var mylocation = getLatLng();
+
+
+      updateDriverExpenses(formData,mylocation);
+
+    }
+
+  </script>
+</body>
+
+</html>

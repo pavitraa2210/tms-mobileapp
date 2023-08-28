@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <title> View Expenses</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <table style="border-collapse: collapse;">
+        <tbody>
+            <tr style="height: 64px;">
+                <td>
+                    <a href="javascript:history.go(-1)" class="go-back-white">
+                        <img class="img-back" alt="Go back" src="assets/img/go-back.svg" />
+                    </a>
+                    <div class="order-number">
+                        View Expense
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody class="scroll" id="form" style="left: 30px;">
+
+            <!-- <tr class="grad-container-expense" style="top:-40px; ">
+                <td style="font-size: 15px;"> Id</td>
+            </tr>
+
+            <tr class="grad-container-expense" style="top: -18px;">
+                <td id="id" name="expense_id">Value Here</td>
+            </tr> -->
+            <tr class="grad-container-expense" style="top:-30px; font: 15px;">
+                <td style="font-size: 15px;">Vehicle Number</td>
+            </tr>
+            <tr class="grad-container-expense" style="top:-12px; font: 15px;">
+                <td id="vehicle-number" name="vehicle-number" style="font-size: 15px;">Value Here</td>
+            </tr>
+
+            <tr class="grad-container-expense" style="top:-30px;left:150px;font: 15px;">
+                <td style="font-size: 15px;">Expense Type</td>
+            </tr>
+            <tr class="grad-container-expense" style="top:-12px;left:150px;font: 15px;">
+                <td id="expense-number" name="expense-number" style="font-size: 15px;">Value Here</td>
+            </tr>
+
+            <tr class="grad-container-expense" style="top:20px;font: 15px;">
+                <td style="font-size: 15px;">Amount</td>
+            </tr>
+            <tr class="grad-container-expense" style="top:40px;font: 15px;">
+                <td id="amount-number" name="amount-number" style="font-size: 15px;">Value Here</td>
+            </tr>
+
+            <tr class="grad-container-expense" style="top:20px;left:150px;font: 15px;">
+                <td style="font-size: 15px;">Receipt Number</td>
+            </tr>
+            <tr class="grad-container-expense" style="top:40px;left:150px;font: 15px;">
+                <td id="receipt-number" name="receipt-number" style="font-size: 15px;">Value Here</td>
+            </tr>
+
+            <tr class="grad-container-expense" style="top:70px;">
+                <td style="font-size: 15px;">Trip Id</td>
+            </tr>
+            <tr class="grad-container-expense" style="top:90px;">
+                <td id="tripid-number" name="tripid-number" style="font-size: 15px;">Value Here</td>
+            </tr>
+
+            <tr class="grad-container-expense" style="top:70px; left:150px;font: 15px;">
+                <td style="font-size: 15px;">Activity Date</td>
+            </tr>
+            <tr class="grad-container-expense" style="top:90px;left:150px;font: 15px;">
+                <td id="activity-number" name="activity-number" style="font-size: 15px;">Value Here</td>
+            </tr>
+        <tbody class="grad-container-expense" style="top: 200px; left: 40px;">
+            <tr class="docview">
+                <td class="view-btn" id="file-number" name="file-number" onclick="redirectToViewPage()">
+                    <img src="assets/img/view-docs.svg" style="width: 50px; height: 50px;" />
+                </td>
+            </tr>
+        <tbody class="grad-container-expense" style="top: 200px; left: 90px;">
+            <td class="edit-btn" style="padding-left: 90px;" onclick="editexpense()">
+                <img src="assets/img/Edit.jpg" style="width: 30px; height: 25px;" alt="Edit Image" />
+            </td>
+
+            </tr>
+        </tbody>
+        </tbody>
+    </table>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script>
+
+        const TRIP = getSelectedTrip();
+        load_data();
+        // setExpenses();
+
+        function load_data() {
+            var type = "";
+            getDriverExpenseData(type);
+        };
+        function redirectToViewPage() {
+            window.location.href = 'view.html';
+        }
+
+
+        function editexpense() {
+            window.location.href = 'expense_edit.html';
+        }
+        function populate_data(data, type) {
+            var div = document.createElement('div');
+            div.className = 'shipment';
+            item = sessionStorage.getItem('item');
+            console.log(item);
+            var storedArray = JSON.parse(sessionStorage.getItem("item"));
+            console.log(storedArray);
+            console.log(storedArray["expense_id"]);
+            // document.getElementById('id').innerHTML = storedArray["expense_id"];
+            document.getElementById('vehicle-number').innerHTML = storedArray["vehicle_number"];
+            document.getElementById('expense-number').innerHTML = storedArray["expense_type"];
+            document.getElementById('amount-number').innerHTML = storedArray["amount"];
+            document.getElementById('receipt-number').innerHTML = storedArray["receipt_no"];
+            document.getElementById('tripid-number').innerHTML = storedArray["trip_id"];
+            document.getElementById('activity-number').innerHTML = storedArray["activity_date"];
+            if (storedArray["bills"]["document"] == "") {
+                $(".docview").hide();
+            } else {
+                $(".docview").show();
+            }
+        };
+
+        function load_completed_data() {
+            var type = "2";
+            // console.log('calling completed')
+            getDriverExpenseData(type);
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <title>View Expenses</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <table style="border-collapse: collapse;">
+        <tbody>
+            <tr style="height: 64px;">
+                <td>
+                    <a href="javascript:history.go(-1)" class="go-back-white">
+                        <img class="img-back" alt="Go back" src="assets/img/go-back.svg" />
+                    </a>
+                    <div class="order-number">
+                        View Documents
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="file-number" class="view-btn">
+
+    </div>
+
+    <div id="bills-message"></div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script>
+
+        function load_data() {
+            var type = "";
+            getDriverExpenseData(type);
+        };
+        function populate_data(data, type) {
+            var div = document.createElement('div');
+            div.className = 'shipment';
+            item = sessionStorage.getItem('item');
+            console.log(item);
+            var storedArray = JSON.parse(sessionStorage.getItem("item"));
+            console.log(storedArray); // log storedArray
+            storedArray["bills"]["document"];
+            // https://wallpapercave.com/wp/wp7470581.jpg
+            console.log(storedArray["bills"]["document"]); // Log  bill_doc
+            document.getElementById('file-number').innerHTML = "<img src='" + storedArray["bills"]["document"] + "' width='340' height='200' style='margin-left: 20px;'>";
+        }
+
+        //  page load
+        window.onload = function () {
+            populate_data();
+        };
+
+        function load_completed_data() {
+            var type = "2";
+            // console.log('calling completed')
+            getDriverExpenseData(type);
+        }
+    </script>
+</body>
+
+</html>

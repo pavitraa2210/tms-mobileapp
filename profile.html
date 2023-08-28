@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport"/>
+    <title>Profile</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<table style="border-collapse: collapse;">
+    <tr style="height: 207px;">
+        <td colspan="2">
+            <div class="profile-top">
+                <a href="javascript:history.go(-1)">
+                    <img class="img-back-profile" alt="Go back" src="assets/img/go-back.svg"/>
+                </a>
+                <div class="sign-out" onclick="confirmation('Confirmation', 'Are you sure you want to SignOut?', 'logOut')">
+                    <span class="text">Sign-Out</span>
+                    <img class="icon" alt="Sign Out" src="assets/img/sign-out.svg"/>
+                </div>
+                <div class="driver-img"></div>
+                <div class="driver-summary">
+                    <div id="name" style="font-weight: 500; font-size: 18px; line-height: 21px; color: #000000;">James Dlong</div>
+                    <div id="location" style="font-size: 16px; line-height: 19px; color: #000000;">Austin, TX</div>
+                    <div id="mobile" style="font-size: 16px; line-height: 19px; color: #000000;">+1 (484)-473-1085</div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr style="height: 24px;"></tr>
+    <tr style="width: 100%;">
+        <td class="td-50">
+            <div class="profile-truck"><img src="assets/img/profile-truck.svg"/></div>  
+            <div class="exp-veh-text">
+                <div style="font-size: 16px; line-height: 19px; color: #006397;">Vehicle</div>
+                <div id="vehicle-no" style="font-size: 14px; line-height: 16px; color: #1A1C1E;">6LNE02</div>
+            </div>
+        </td>
+        <td class="td-50">
+            <div class="profile-truck" style="margin-left: 10px;"><img src="assets/img/driver-experience-icon.svg"/></div>  
+            <div class="exp-veh-text" style="margin-left: 15%; margin-top: -37px;">
+                <div style="font-size: 16px; line-height: 19px; color: #006397;">Experience</div>
+                <div id="experience" style="font-size: 14px; line-height: 16px; color: #1A1C1E;">5 years</div>
+            </div>
+        </td>
+    </tr>
+    <tr style="height: 24px;"></tr>
+    <tr style="width: 100%; height: 37px;">
+        <td colspan="2">
+            <div class="profile-icons"><img src="assets/img/driver-licence.svg"/></div>  
+            <div class="profile-icons-text">
+                <div style="font-size: 16px; line-height: 19px; color: #41474D;">Licence</div>
+                <div id="licence" style="font-size: 14px; line-height: 16px; color: #66587B;">S530-460-01-066-0</div>
+            </div>
+        </td>
+    </tr>
+    <tr style="height: 41px;"></tr>
+    <tr style="width: 100%; height: 16px;" onclick="changePassword()">
+        <td colspan="2">
+            <div class="profile-icons" style="margin-top: -7px;"><img src="assets/img/change-pass.svg"/></div>  
+            <div class="profile-icons-text" id="change-password">
+                <div style="margin-top: 11px; font-size: 14px; text-decoration-line: underline; line-height: 16px; color: #006397;">Change Password</div>
+            </div>
+        </td>
+    </tr>
+    <tr style="height: 32px;"></tr>
+    <tr style="width: 100%; height: 28px;" onclick="gotoSettings()">
+        <td colspan="2">
+            <div class="profile-icons" style="margin-top: -13px;"><img src="assets/img/setting-profile.svg"/></div>  
+            <div class="profile-icons-text">
+                <div style="margin-top: 11px; font-size: 14px; line-height: 16px; color: #000000;">App Settings</div>
+            </div>
+            <div style="position: absolute; right: 10%; margin-top: -7px;"><img src="assets/img/app-settings-forward.svg"/></div>  
+        </td>
+    </tr>
+</table>
+<div class="popup-bg hidden" id="modal">
+    <div id="change-pass-modal" class="date-modal hidden">
+        <div class="close-btn" onclick="closeModal()">x</div>
+        <div class="text">New Password</div>
+        <input class="date-input" type="password" id="" placeholder="New Password" onchange="updateNewPass(this, this.value)">
+        <div class="text" style="margin-top: 45%;">Confirm Password</div>
+        <input class="reason" type="password" id="" placeholder="Confirm Password" onkeyup="checkSame(this, this.value)">
+        <div class="modal-btn" onclick="callApiChangePassword()">OK</div>
+    </div>
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+
+populate_data(getUser())
+
+function logOut() {
+    clearSession();
+    window.location = "login.html";
+}
+
+function gotoSettings() {
+    window.location = "settings.html";
+}
+
+function populate_data(data) {
+    console.log(data)
+    document.getElementById('name').innerHTML = data.name;
+    document.getElementById('mobile').innerHTML = data.contact_num;
+    document.getElementById('location').innerHTML = data.city;
+
+    document.getElementById('experience').innerHTML = data.driving_since + ' years';
+    document.getElementById('vehicle-no').innerHTML = data.vehicle.toUpperCase();
+
+    document.getElementById('licence').innerHTML = data.driving_licence_num.toUpperCase();
+}
+
+var new_pass = null
+var confirm_pass = null
+function updateNewPass(input, password) {
+    if(password.length < 6) {
+        input.style = 'border: 0.15em solid red'
+        input.placeholder = 'Minimum Password length is 6'
+        input.value = ''
+    }
+    else {
+        input.style = 'border: 0.15em solid grey'
+        new_pass = password
+    }
+}
+function checkSame(input, conf_pass) {
+    confirm_pass = conf_pass
+    if(conf_pass == new_pass) {
+        input.style = 'border: 0.15em solid green'
+    } else {
+        input.style = 'border: 0.15em solid red'
+    }
+}
+
+function changePassword() {
+    document.getElementById('modal').className = 'popup-bg';
+    document.getElementById('change-pass-modal').className = 'date-modal';
+    console.log('change password')
+}
+
+
+function callApiChangePassword() {
+    console.log(new_pass, confirm_pass)
+    if(new_pass == null || confirm_pass == null)
+        return
+    if(new_pass == confirm_pass) {
+        updatepassword(new_pass)
+    }
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.add('hidden')
+}
+
+// function confirm() {
+//     if(getOS() == 'Android') {
+//         var res = null
+//         res = Android.showDialog('Confirmation!', 'Are you sure you want to SignOut?', 2, false, "")
+//         if(res = "true")
+//             logOut();
+//     } else {
+//         confirmation('Confirmation', 'Are you sure you want to SignOut?', 'logOut')
+//     }
+// }
+
+
+</script>
+</body>
+</html>

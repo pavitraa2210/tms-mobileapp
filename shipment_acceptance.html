@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport"/>
+    <meta name="theme-color" content="#0081C1" />
+    <title>Shipment Acceptance</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+</head>
+<body class="map-body">
+    <div class="map"></div>
+    <a href="javascript:history.go(-1)" class="go-back">
+        <img class="img" alt="Go back" src="assets/img/go-back.svg"/>
+    </a>
+    <div class="logo-top">
+        <img src="assets/img/shipmentx-logo-shadow.svg"/>
+    </div>
+    <div class="bottom-sheet">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <div class="heading">Shipment details</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td class="label-lite">Tracking Number</td>
+                        </tr>
+                        <tr>
+                            <td class="value-lg" id="tracking-number">#SH123456</td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td class="label-lite pull-right">Status</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="label-box label-box-warning pull-right" id="status">Pending</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="shipment">
+                        <table style="width:100%;">
+                            <tbody>
+                                <div style="position: absolute; left: calc(50% - 9px);"><span style="font-size:26px;">&#8594;</span></div>
+                                <tr>
+                                    <td class="td-50">
+                                        <div class="value-det" id="start-date">18 Dec, 21</div>
+                                    </td>
+                                    <td class="td-50">
+                                        <div class="value-det pull-right" id="end-date">19 Dec, 21</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-50">
+                                        <div class="value-det" id="start-time">11:25 am</div>
+                                    </td>
+                                    <td class="td-50">
+                                        <div class="value-det pull-right" id="end-time">2:30 pm</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-50">
+                                        <div class="label label-12" id="start-city">Lake Ronkonkoma, NY</div>
+                                    </td>
+                                    <td class="td-50">
+                                        <div class="label label-12 pull-right" id="end-city">Land O' Lakes, FL</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <div class="progresses-hor" style="justify-content: center; margin-top: 10px; margin-bottom: 10px;" id="shipment-status">
+                            <div class="steps"> <span><img src="assets/img/pickup.svg" style="margin-top: 4px;"/></span> </div> <span class="line-progress"></span>
+                            <div class="steps"><span><img src="assets/img/end-point.svg" style="margin-top: 4px;"/></span></div>
+                        </div> -->
+                        <table style="margin-top: 10px;">
+                            <tbody>
+                                <tr>
+                                    <td class="td-25" rowspan="2">
+                                        <div class="stops-btn">
+                                            <img src="assets/img/stops-prefix-icon.svg">
+                                            <div class="label" style="margin-left: 25px;">Stops</div>
+                                            <div class="value-det" style="margin-top: 5px; margin-left: 25px;" id="stops-value">6</div>
+                                        </div>
+                                    </td>
+                                    <td class="td-25">
+                                        <div class="label make-center" style="margin-left: -10px;">Volume</div>
+                                    </td>
+                                    <td class="td-25">
+                                        <div class="label make-center">Weight</div>
+                                    </td>
+                                    <td class="td-25">
+                                        <div class="label pull-right">Distance</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- <td class="td-25">
+                                        <div class="value-det" id="stops-value">6</div>
+                                    </td> -->
+                                    <td class="td-25">
+                                        <div class="value-det make-center" style="margin-left: -10px;" id="volume">94 ft<sup>3</sup></div>
+                                    </td>
+                                    <td class="td-25">
+                                        <div class="value-det make-center" style="margin-top: 5px;" id="weight">2240 lbs</div>
+                                    </td>
+                                    <td class="td-25">
+                                        <div class="value-det pull-right" style="margin-top: 5px;" id="distance">1175 mi</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="height: 10px;"></div>
+            
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="td-33">
+                                        <div class="label">Transport Mode</div>
+                                    </td>
+                                    <td class="td-33">
+                                        <div class="label make-center">Truck Type</div>
+                                    </td>
+                                    <td class="td-33">
+                                        <div class="value pull-right" id="pickup-count">Pickups: 3</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-33">
+                                        <div class="value-det">FTL</div>
+                                    </td>
+                                    <td class="td-33">
+                                        <div class="value-det make-center">Truck</div>
+                                    </td>
+                                    <td class="td-33">
+                                        <div class="value pull-right" id="drop-count">Drops: 2</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr id="accept-row">
+                <td colspan="2" class="td-margin-md">
+                    <div class="btn btn-primary btn-fill accept-order" id="accept-order" onclick="accept_order()">Accept Order</div>
+                </td>
+            </tr>
+            <tr id="rejres-row">
+                <td class="td-50 td-margin-md">
+                    <div class="btn btn-default btn-fill reschedule" id="reschedule" onclick="reschedule()">Reschedule</div>
+                </td>
+                <td class="td-50 td-margin-md">
+                    <div class="btn btn-trans-danger btn-fill reject" id="reject" onclick="reject()">Reject</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="popup-bg hidden" id="modal">
+        <div id="reschedule-modal" class="date-modal hidden">
+            <div class="close-btn" onclick="closeModal('reschedule-modal')">x</div>
+            <div class="text">Select New Date*</div>
+            <input class="date-input" type="date" id="rescheduled-date">
+            <div class="text" style="margin-top: 45%;">Specify Reason*</div>
+            <input class="reason" type="text" id="reschedule-reason" placeholder="Reason">
+            <div class="modal-btn" onclick="callApiReschedule()">OK</div>
+        </div>
+        <div id="reject-modal" class="date-modal hidden">
+            <div class="close-btn" onclick="closeModal('reject-modal')">x</div>
+            <div class="text" style="margin-top: 25%;">Specify Reason</div>
+            <input class="reason" style="margin-top: 36%;" type="text" id="reject-reason" placeholder="Reason (Optional)">
+            <div class="modal-btn" onclick="callApiReject()">OK</div>
+        </div>
+    </div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9DM7bHv4KTp7b0yChgfYBO1Xsgb5kLHk&callback=initMap&v=weekly&channel=2" async ></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+
+
+// call required api to accept the order
+function accept_order() {
+    console.log('Location', getLatLng())
+    if(getLatLng() == null) {
+        warning('Location Error!', 'Please re-attempt accepting the order after starting location service.')
+        startLocationService()
+        return
+    }
+
+    var shipments =  "[" + JSON.stringify(getSelectedTrip()) + "]";
+    // console.log(shipments.toString());
+    startMultipleShipments(shipments, getLatLng().latitude, getLatLng().longitude);
+}
+
+
+// show date and reason modal required for re-scheduling
+function reschedule() {
+    document.getElementById('modal').className = 'popup-bg';
+    document.getElementById('reschedule-modal').className = 'date-modal';
+    console.log('rescheduled-date')
+}
+
+
+// validate the inputs and call the required api required for re-scheduling 
+function callApiReschedule() {
+    date = document.getElementById('rescheduled-date')
+    reason = document.getElementById('reschedule-reason')
+
+    var new_date = new Date(date.value)
+    console.log(new_date)
+    var curr_date = new Date()    
+
+    if(new_date < curr_date) {
+        error('Date Error', 'New date must always be greater than current date');
+        return
+    }
+
+    if(date.value != '' && reason.value != '') {
+        rescheduleShift(date.value, reason.value)
+        document.getElementById('modal').className = 'popup-bg hidden';
+        document.getElementById('reschedule-modal').className = 'date-modal hidden';
+    }
+    else {
+        if(reason.value == '')
+            reason.style = "border: 0.15em solid red;"
+        if(date.value == '')
+            date.style = "border: 0.15em solid red;"
+    }
+}
+
+
+
+function reject() {
+    document.getElementById('modal').className = 'popup-bg';
+    document.getElementById('reject-modal').className = 'date-modal';
+    console.log('reject')
+}
+
+
+
+function callApiReject() {
+
+    reason = document.getElementById('reject-reason')
+    setShipReject(reason.value)
+    document.getElementById('modal').className = 'popup-bg hidden';
+    document.getElementById('reject-modal').className = 'date-modal hidden';
+
+}
+
+
+
+$("#rescheduled-date").change( function() {
+    this.style = "";
+});
+
+$("#reschedule-reason").change( function() {
+    this.style = "";
+});
+
+
+
+let map;
+function initMap() {
+map = new google.maps.Map(document.getElementsByClassName("map")[0], {
+    center: { lat: -34.397, lng: 150.644 },
+    zoom: 7,
+    disableDefaultUI: true, 
+});
+}
+
+const TRIP = getSelectedTrip();
+const DRIVER = getUser();
+
+load_data(); 
+function load_data() {
+    var trip_id = "";
+    getshipmentstops(TRIP.shift_id, TRIP.shift_veh_id, trip_id, 'shipment_acceptance'); 
+};
+
+function process_data(data) {
+    var lat=0;
+    var lng=0;
+    path_line = [];
+    for (let i = 0; i < data.data.length; i++) {
+        path_line.push(new google.maps.LatLng(data.data[i].plat, data.data[i].plng));
+        lat = lat + parseFloat(data.data[i].plat);
+        lng = lng + parseFloat(data.data[i].plng);
+    }
+
+
+    // path_line.push(new google.maps.LatLng(26.922070, 75.778885)); //jaipur
+    // path_line.push(new google.maps.LatLng(22.572645, 88.363892));  //kolkata
+    // path_line.push(new google.maps.LatLng(19.076090, 72.877426));  //mumbai
+
+    // lat = lat + 26.922070 + 22.572645 + 19.076090; 
+    // lng = lng + 75.778885 + 88.363892  + 72.877426;
+
+    // lat = lat + 19.076090; 
+    // lng = lng + 72.877426;
+
+
+    var directionsService = new google.maps.DirectionsService();
+    var dist = 0;
+    // var max_dist = 0;
+    for (let i = 0; i < path_line.length - 1; i++) {
+        var request = {
+            origin: path_line[i],
+            destination: path_line[i+1],
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+        };
+
+        directionsService.route(request, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                draw_line(response.routes[0].overview_path);
+                dist = dist + parseInt(response.routes[0].legs[0].distance.value/1000);
+                // max_dist = Math.max(max_dist, dist);
+                calc_zoom(dist);
+            }
+        });
+    }
+    recenter_map(lat/path_line.length, lng/path_line.length);
+    draw_points(path_line);
+}
+
+function populate_data(data) {
+    // console.log(data.length);
+    // stops
+    document.getElementById("stops-value").innerHTML = data.length;
+
+
+    // remove buttons when order is not pending
+    if(TRIP.id != "") {
+        document.getElementById('accept-row').remove();
+        document.getElementById('rejres-row').remove();
+    }
+
+    // pickups and drops
+    var p = 0;
+    var d = 0; 
+    for (let j = 0; j < data.length; j++) {
+        if(data[j].ship_type == "P")
+            p += 1;
+        if(data[j].ship_type == "D")
+            d += 1;
+    }
+     
+    document.getElementById("pickup-count").innerHTML = "Pickups: " + p;
+    document.getElementById("drop-count").innerHTML = "Drops: " + d;
+
+    // tracking number
+    document.getElementById("tracking-number").innerHTML = TRIP.shipmentid;
+
+    // status
+    var status = document.getElementById("status");
+    console.log('status', TRIP.astatus)
+
+    if(TRIP.astatus == "") {
+        status.innerHTML = "Pending";
+    }
+    else if(TRIP.astatus == 1) {
+        status.innerHTML = "Active";
+        status.classList.remove("label-box-danger");
+        status.classList.add('label-box-success');
+    }
+    else if(TRIP.astatus == 0) {
+        status.innerHTML = "Accepted";
+        status.classList.remove("label-box-danger");
+        status.classList.add('label-box-success');
+    }
+    else { 
+        status.innerHTML = "Pending";
+    }
+
+    // **** shipment-progress multiple stops handler ****
+    // 
+    // if(data.length > 2) {
+    //     var inner = `<div class="steps"> <span><img src="assets/img/pickup.svg" style="margin-top: 4px;"/></span> </div> <span class="line-progress"></span>`
+    //     for(let k=0; k<data.length - 2; k++)
+    //     {
+    //         inner += `<div class="steps"></div> <span class="line-progress"></span>`
+    //     }
+    //     inner += `<div class="steps"><span><img src="assets/img/end-point.svg" style="margin-top: 4px;"/></span></div>`
+    //     document.getElementById("shipment-status").innerHTML = inner;
+    //     const stylesheet = document.getElementsByTagName('style')[0];
+    //     stylesheet.innerHTML += `
+    //     .line-progress {
+    //         width: calc((90% - (${(data.length - 1)} * 10.94px)) /${(data.length - 1)});
+    //         height: 1.56px;
+    //         background: rgba(114, 119, 126, 0.16);
+    //     }`
+    // }
+
+
+    // start and end city
+    var sAddress = TRIP.scity+" ("+TRIP.saddress.substring(0, 16)+"..)";
+    var eAddress = TRIP.dcity+" ("+TRIP.daddress.substring(0, 16)+"..)";
+    document.getElementById("start-city").innerHTML = camelCase(sAddress);
+    document.getElementById("end-city").innerHTML = camelCase(eAddress);
+
+    // start and end date
+    document.getElementById("start-date").innerHTML = get_date(TRIP.startdate, DRIVER.timezone);
+    document.getElementById("end-date").innerHTML = get_date(TRIP.enddate, DRIVER.timezone);
+
+
+    // start time and end time
+    document.getElementById("start-time").innerHTML = get_time(TRIP.startdate, DRIVER.timezone);
+    document.getElementById("end-time").innerHTML = get_time(TRIP.enddate, DRIVER.timezone);
+
+    
+    // weight, distance, volume
+    document.getElementById("weight").innerHTML = parseInt(TRIP.shipweight) + ' lbs';
+    document.getElementById("distance").innerHTML = TRIP.distance;
+    try {
+    document.getElementById("volume").innerHTML = parseInt(data[0].shipment_volume) + ' ft<sup>3</sup>';
+    }
+    catch {}
+}
+
+function calc_zoom(dist)
+{
+    switch (true) {
+        case (dist < 100):
+            map.setZoom(7);
+            console.log('zoom', 7, dist);
+            break;
+        case (dist < 1000):
+            map.setZoom(6);
+            console.log('zoom', 6, dist);
+            break;
+        case (dist < 10000):
+            map.setZoom(5);
+            console.log('zoom', 5, dist);
+            break;
+        default:
+            map.setZoom(6, 'default');
+            break;
+    }
+}
+
+function draw_line(path)
+{
+    console.log('draw_line', path)
+    var line = new google.maps.Polyline({
+    path: path,
+    strokeColor:"#034efc",
+    strokeOpacity:0.65,
+    strokeWeight:5,
+    geodesic: true,
+    map: map
+    });
+}
+
+
+function draw_points(path_line) {
+
+    start_img = "assets/img/pickup-shadowless.svg";
+    end_img = "assets/img/end-point.svg";
+    mid_img = "assets/img/mid-points.svg";
+
+    var beachMarker = new google.maps.Marker({
+        position: path_line[0],
+        map: map,
+        icon: start_img
+    });
+
+    var beachMarker = new google.maps.Marker({
+        position: path_line[path_line.length - 1],
+        map: map,
+        icon: end_img
+    });
+
+    for (let i = 1; i < path_line.length - 1; i++) {
+        var beachMarker = new google.maps.Marker({
+            position: path_line[i],
+            map: map,
+            icon: mid_img
+        });
+    }
+}
+
+
+
+function recenter_map(lat, lng) {
+    console.log('recenter_map', lat, lng)
+    map.setCenter(new google.maps.LatLng(lat-1.5, lng));
+    // map.setZoom(12);
+}
+
+
+function closeModal(id) {
+    document.getElementById('modal').classList.add('hidden')
+    document.getElementById(id).classList.add('hidden')
+}
+    
+</script>
+</body>
+</html>

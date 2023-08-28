@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <title>Add Expense</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <form name="myExpenseForm" id="myExpenseForm" method="POST" enctype="multipart/form-data">
+        <table style="border-collapse: collapse;">
+            <tbody>
+                <tr style="height: 64px;">
+                    <td>
+                        <a href="javascript:history.go(-1)" class="go-back-white">
+                            <img class="img-back" alt="Go back" src="assets/img/go-back.svg" />
+                        </a>
+                        <div class="order-number">
+                            Add Expense
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody class="scroll" id="form" style="top:70px">
+
+
+                <tr class="grad-container" style="top: 10px; height: 118px;">
+                    <td class="grad-container-head">Vehicle Number</td>
+                </tr>
+                <tr class="field-contain" style="top: 50px">
+                    <td>
+                        <input class="field-input" placeholder="Vehicle Number" type="text" id="vehicle"
+                            name="vehicle_number" />
+                    </td>
+                </tr>
+                <tr class="grad-container" style="top:100px;">
+                    <td class="grad-container-head" style="font-size: 15px;"> Expense Type</td>
+                </tr>
+                <tr class="field-contain" style="top: 150px">
+                    <td>
+                        <input class="field-input" placeholder="Expense Type" type="text" id="expense"
+                            name="expense_type" />
+                        <div id="expense-dropdown"></div>
+                    </td>
+                </tr>
+                <tr class="grad-container" style="top: 200px">
+                    <td class="grad-container-head">Amount</td>
+                </tr>
+                <tr class="field-contain" style="top: 250px">
+                    <td>
+                        <input class="field-input" placeholder="Amount" type="number" id="amount" name="amount" />
+                    </td>
+                </tr>
+                <tr class="grad-container" style="top: 300px; height: 118px;">
+                    <td class="grad-container-head">Receipt Number</td>
+                </tr>
+                <tr class="field-contain" style="top: 350px">
+                    <td>
+                        <input class="field-input" placeholder="Receipt Number" type="text" id="receipt"
+                            name="receipt_no" />
+                    </td>
+                </tr>
+                <tr class="grad-container" style="top: 400px;">
+                    <td class="grad-container-head">Trip Id</td>
+                </tr>
+                <tr class="field-contain" style="top:450px;">
+                    <td>
+                        <input class="field-input" placeholder="Trip Id" type="text" id="trip" name="trip_id" />
+                        <div id="trip-dropdown"></div>
+                    </td>
+                </tr>
+                <tr class="grad-container" style="top: 500px">
+                    <td class="grad-container-head">Activity Date</td>
+                </tr>
+                <tr class="field-contain" style="top: 550px;">
+                    <td>
+                        <input class="field-input date" placeholder="Activity Date" type="date" id="date"
+                            name="activity_date" />
+                    </td>
+                </tr>
+                <tr class="grad-container" style="top: 600px">
+                    <td class="grad-container-head">Upload Files</td>
+                </tr>
+                <tr class="field-contain" style="top: 650px;">
+                    <td>
+                        <input class="field-input" type="file" id="file" name="file" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <span id="warning" class="hidden">Error</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="navigation">
+        <div class="btn" id="submit">
+            <div class="text">Submit</div>
+        </div>
+    </div>
+    </div>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9DM7bHv4KTp7b0yChgfYBO1Xsgb5kLHk&v=3.exp&sensor=false&libraries=places"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/script.js?10"></script>
+    <script>
+        var vehicle_data = null;
+        var expense_data = null;
+        var amount_data = null;
+        var receipt_data = null;
+        var trip_data = null;
+        var date_data = null;
+        var file_data = null;
+
+
+        $(document).ready(function () {
+            var sessData = getUser();
+
+            $("#vehicle").val(sessData.vehicle);
+            $("#trip").val(sessData.trip_id);
+            vehicle_data = sessData.vehicle_id;
+            trip_data = sessData.trip_id;
+            // anything the user enters in any field the error message at the bottom disappears
+            $('input').change(function () {
+                $('#warning').addClass('hidden')
+            });
+
+            // get data from the get_expense function in script.js and show the getExpenseTypes 
+            // as a dropdown in expense type field
+            $('#expense').keyup(function () {
+                var user_id = 1;
+                var dropdown = document.getElementById("expense-dropdown");
+                get_expense(user_id, dropdown, this.value, "expense");
+            });
+
+
+            $('#amount').change(function () {
+                amount_data = this.value
+            });
+
+            $('#receipt').change(function () {
+                receipt_data = this.value
+
+            });
+
+            $('#trip').change(function () {
+                trip_data = this.value
+            });
+
+            $('#date').change(function () {
+                date_data = this.value;
+            });
+
+            $('#file').change(function () {
+                file_data = this.value
+
+            });
+            $('#submit').click(function () {
+                submit_data();
+            });
+
+        });
+
+        // fills the get_vehicle,get_expense list data in vehicle, expense 
+        function fill_dropdown(data, dropdown, caller_id) {
+            dropdown.innerHTML = null;
+            for (let i = 0; i < data.length; i++) {
+                dropdown.innerHTML += `
+            <div class="dropdown" onclick="selected_party(this, ${caller_id})" data="${data[i].cid} ${data[i].id}">${data[i].name}</div>
+        `;
+
+                if (i > 4)
+                    break;
+            }
+        }
+
+
+        // clears the filled in dropdown
+        function clear_dropdown(element) {
+            console.log('clear');
+            element.innerHTML = null;
+        }
+
+
+        // create an object of the selected party data and proceed to assign it to the parent field
+        function selected_party(data, field) {
+            field.value = data.innerHTML
+            var name = data.innerHTML;
+            var cid = data.getAttribute("data").split(" ")[0];
+            var id = data.getAttribute("data").split(" ")[1];
+            data.parentElement.innerHTML = null;
+            var json_data = JSON.parse(JSON.stringify({
+                "id": id,
+                "name": name,
+                "cid": cid
+            }));
+            // console.log(json_data)
+            assign_data(field, json_data);
+        }
+
+
+        // assigns the dropdown item selected to the parent field (from where the dropdown was created)
+        function assign_data(field, data) {
+            switch (field.getAttribute("id")) {
+                case "expense":
+                    expense_data = data;
+                    break;
+                case "vehicleid":
+                    vehicleid_data = data;
+                    break;
+
+                default:
+                    return;
+            }
+        }
+
+        function submit_data() {
+            var warn = document.getElementById("warning");
+            const scrollingElement = (document.getElementById('form'));
+
+
+            if (expense_data == null) {
+                warn.innerHTML = 'Expense Type Cannot be Empty'
+                warn.classList.remove('hidden')
+                scrollingElement.scrollTop = scrollingElement.scrollHeight;
+                return
+            }
+
+
+            if (amount_data == null) {
+                warn.innerHTML = 'Amount Cannot Be Empty';
+                warn.classList.remove('hidden');
+                scrollingElement.scrollTop = scrollingElement.scrollHeight;
+                return
+            }
+
+            if (receipt_data == null) {
+                warn.innerHTML = 'Receipt Data cannot be empty';
+                warn.classList.remove('hidden');
+                scrollingElement.scrollTop = scrollingElement.scrollHeight;
+                return
+            }
+
+
+            if (trip_data == null) {
+                warn.innerHTML = 'Trip Id Cannot Be Empty';
+                warn.classList.remove('hidden');
+                scrollingElement.scrollTop = scrollingElement.scrollHeight;
+                return
+            }
+
+            var fileInput = document.getElementById("file");
+            var file = fileInput.files[0]; // Get the selected file
+            var form = $("#myExpenseForm");
+            // you can't pass Jquery form it has to be javascript form object
+            var formData = new FormData(form[0]);
+            formData.append('bill_doc', file);
+            console.log(formData.get('bill_doc'));
+            var mylocation = getLatLng();
+
+
+
+
+
+            addDriverExpenses(formData,mylocation);
+            console.log(formData);
+            // window.location = "expense_dashboard.html";
+
+
+        }
+
+    </script>
+</body>
+
+</html>

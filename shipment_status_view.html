@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport"/>
+    <!-- <meta name="theme-color" content="#0081C1" /> -->
+    <title>Shipment Status</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<table style="border-collapse: collapse;">
+    <tbody>
+        <tr style="height: 64px;">
+            <td>
+                <a href="javascript:history.go(-1)" class="go-back-white">
+                    <img class="img-back" alt="Go back" src="assets/img/go-back.svg"/>
+                </a>
+                <div class="order-number" id="order-number">
+                    #SH951456
+                </div>
+            </td>
+            <td class="top-btn">
+                <div style="margin-left: calc(50% - 22px);" id="map-btn">
+                    <img height=20 width= 17 src="assets/img/map-point.svg"/>  
+                    <span class="grey-text">Map</span>
+                </div>
+            </td>
+        </tr>
+        <tr style="height: 148px">
+            <td>
+                <div class="details-card">
+                    <div style="padding: 9.5px 10.5px 9.5px 10.5px">
+                        <table style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td class="td-50">
+                                        <div class="vavalue-od-stat lue" id="start-date">18 Dec, 21</div>
+                                    </td>
+                                    <td class="td-50">
+                                        <div class="value-od-stat  pull-right" id="end-date">19 Dec, 21</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-50">
+                                        <div class="value-od-stat" id="start-time">11:25 am</div>
+                                    </td>
+                                    <td class="td-50">
+                                        <div class="value-od-stat  pull-right" id="end-time">2:30 pm</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-50">
+                                        <div class="blue-location" id="start-city">Lake Ronkonkoma, NY</div>
+                                    </td>
+                                    <td class="td-50">
+                                        <div class="blue-location pull-right" id="end-city">South River, NJ</div>
+                                    </td>
+                                </tr>
+                                <tr style="height: 15px;"></tr>
+                                <tr>
+                                    <td class="td-100" colspan="2">
+                                        <div class="progresses-hor" id="progress" style="justify-content: center;">
+                                            <!-- <div class="steps-done"></div> <span class="line-done"></span>
+                                            <div class="steps-done-big"> <span><img src="assets/img/delivery-truck.svg"/></span> </div> <span class="line"></span>
+                                            <div class="steps"></div> <span class="line"></span>
+                                            <div class="steps"></div> -->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="height: 20px;"></tr>
+                                <tr class="blue-weighted">
+                                    <td class="td-50" align="center" id="pickups">Pick Ups: </td>
+                                    <td class="td-50" align="center" id="drops">Drops: </td>
+                                </tr>
+                                    <!-- <td colspan="2">
+                                        <table>
+                                            <tr style="height: 15px;"></tr>
+                                            <tr class="blue-weighted">
+                                                <td>Pick Ups: 1/3</td>
+                                            </tr>
+                                            <tr class="blue-weighted">
+                                                <td>Drops: 0/2</td>
+                                            </tr>
+                                        </table>
+                                    </td> -->
+                                    <!-- <td colspan="2">
+                                        <table style="padding-left: 20%;">
+                                            <tr style="height: 5px;"></tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="assets/img/map-point.svg"/> 
+                                                    <span class="grey-icon-text">Map view</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="assets/img/Status view icon.svg"/>
+                                                    <span class="grey-icon-text">Status view</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="status-view-text" style="padding-top: 16px; padding-left: 17.11px;">
+                    Status View
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin-top: 10px;"></div>
+            </td>
+        </tr>
+        <tr>     
+            <td  class="events">
+                <table style="border-collapse: collapse; width: 100%;" id="status-container">
+                    <!-- <tr class="event">
+                        <td>
+                            <div class="ver-node"><span><img src="assets/img/status_check_ver.svg"/></span></div>
+                            <div class="vl"></div>
+                        </td>
+                        <td>
+                            <div class="head">Accepted by Driver</div> 
+                            <div class="desc" onclick="showFullAddress(this.parentElement)">VXWC+J2 Washington, Distirct of Columbia, USA</div>
+                            <div class="hidden" onclick="hideFullAddress(this)">VXWC+J2 Washington, Distirct of Columbia, USA, and some more address lines, jabshhxh svghqhxgh qsghqvghqvghq gqsghvghqx gghqvxhg</div>
+                            <div class="time">15 Jan 2022 - 10:30 am</div>
+                            <div style="margin-bottom: 20px;"></div>
+                        </td>
+                    </tr> -->
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="border-collapse: collapse;">
+    <tr class="navigation-custom">
+        <td class="close-shipment cs_middle" id="close-shipment">
+            <div style="margin-left: calc(50% - 90px);">
+                <img src="assets/img/Close-shipment.svg"/>
+                <span class="close-shipment-text">Close Shipment</span>
+            </div>
+        </td>
+        <td class="hidden" id="abort-shipment">
+            <div style="margin-left: calc(50% - 45px);">
+                <img src="assets/img/abort.svg"/>
+                <span class="abort-text">Abort</span>
+            </div>
+        </td>
+    </tr>
+</table>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+
+    const TRIP = getSelectedTrip();
+    const DRIVER = getUser();
+
+    $('#map-btn').on('click', function () {
+        window.location = "shipment_acceptance.html"
+    });
+
+    $('#close-shipment').on('click', function () {
+        closeTrip(TRIP.id, DRIVER.id, DRIVER.timezone);
+    });
+    $('#abort-shipment').on('click', function () {
+        reason = "storm";
+        location = getLatLng()
+        setshipAbort(TRIP.id, DRIVER.id, DRIVER.timezone, location.latitude, location.longitude, reason, TRIP.trip_type, TRIP.vehicle_id, TRIP.shipmentid)
+    });
+         
+    console.log(TRIP, DRIVER)
+    populateData(TRIP);
+
+    function populateData(data) {
+
+        document.getElementById('order-number').innerHTML = data.shipmentid;
+
+        document.getElementById('start-date').innerHTML = get_date(data.startdate, DRIVER.timezone);
+        document.getElementById('start-time').innerHTML = get_time(data.startdate, DRIVER.timezone);
+
+        document.getElementById('end-date').innerHTML =  get_date(data.enddate, DRIVER.timezone);
+        document.getElementById('end-time').innerHTML =  get_time(data.enddate, DRIVER.timezone);
+
+        document.getElementById('start-city').innerHTML = camelCase(data.scity);
+        document.getElementById('end-city').innerHTML = camelCase(data.dcity);
+
+        getshipmentstops(TRIP.shift_id, TRIP.shift_veh_id, TRIP.id, 'shipment_status_view');
+
+        getshipstatuses(data.id, DRIVER.timezone);
+        console.log(data.id, DRIVER.timezone);
+    }
+
+
+    function populate_status(status_arr) {
+        status_cntnr = document.getElementById('status-container');
+
+        for(i=0; i<status_arr.length; i++) {
+            console.log(status_arr[i])
+            status = 
+            `<tr class="event">
+                <td>
+                    <div class="ver-node"><span><img src="assets/img/status_check_ver.svg"/></span></div>`;
+                    if(i != status_arr.length - 1)
+                        status +=  `<div class="vl"></div>`;
+               status += `</td>
+                <td>
+                    <div class="head">${status_arr[i].status_name}</div> 
+                    <div class="desc" onclick="showFullAddress(this.parentElement)">${status_arr[i].place}</div>
+                    <div class="hidden" onclick="hideFullAddress(this)">${status_arr[i].place}</div>
+                    <div class="time">${get_date(status_arr[i].createdon, DRIVER.timezone)} - ${get_time(status_arr[i].createdon, DRIVER.timezone)}</div>
+                    <div style="margin-bottom: 20px;"></div>
+                </td>
+            </tr>`;
+            status_cntnr.innerHTML += status;
+        }
+    }
+
+    function fill_pickup_drop_values(data) {
+        pickups = pickups_done = drops = drops_done = 0;
+        for(i=0; i<data.length; i++) {
+            if(data[i].ship_type == 'P') {
+                pickups += 1;
+                if(data[i].status == 'C')
+                    pickups_done += 1;
+            }
+
+            if(data[i].ship_type == 'D') {
+                drops += 1;
+                if(data[i].status == 'C')
+                    drops_done += 1;
+            }
+        }
+        document.getElementById('pickups').innerHTML = "Pick Ups: " + pickups_done + "/" + pickups;
+        document.getElementById('drops').innerHTML = "Drops: " + drops_done + "/" + drops;
+
+
+        // if no order is dropped the abort button should appear
+        if(drops_done < 1) {
+            document.getElementById('abort-shipment').className = 'abort';
+            document.getElementById('close-shipment').className = 'close-shipment cs_left';
+        }
+
+        populate_progress_block(data)
+    }
+
+    function populate_progress_block(stops) {
+        progress = document.getElementById('progress')
+        var len = stops.length
+        line_length = (80 - 40/(len-1))/(len-1);
+        console.log("line_length", line_length)
+        for(i=0; i<stops.length; i++) {
+            if(i < len - 1) {
+                if(stops[i].status == 'N') {
+                    progress.innerHTML += `<div class="steps"></div> <span class="line" style="width: ${line_length}%"></span>`;
+                }
+                if(stops[i].status == 'S') {
+                    progress.innerHTML += `<div class="steps-done-big"> <span><img src="assets/img/delivery-truck.svg"/></span> </div> <span class="line" style="width: ${line_length}%"></span>`;
+                }
+                if(stops[i].status == 'C') {
+                    progress.innerHTML += `<div class="steps-done"></div> <span class="line-done" style="width: ${line_length}%"></span>`;
+                }
+            } else {
+                if(stops[i].status == 'N') {
+                    progress.innerHTML += `<div class="steps"></div>`;
+                }
+                if(stops[i].status == 'S') {
+                    progress.innerHTML += `<div class="steps-done-big"> <span><img src="assets/img/delivery-truck.svg"/></span> </div>`;
+                }
+                if(stops[i].status == 'C') {
+                    progress.innerHTML += `<div class="steps-done-big"> <span><img src="assets/img/delivery-truck.svg"/></span> </div>`;
+                }
+            } 
+        }
+    }
+
+    function showFullAddress(container) { 
+        fullAddress = container.children.item(2)
+        if(fullAddress.innerHTML.length > 0)
+            fullAddress.className = 'desc-full'
+    }
+
+    function hideFullAddress(self) {
+        self.className = 'hidden'
+    }
+
+</script>
+</body>
+</html>

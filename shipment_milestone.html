@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport"/>
+    <title>Shipment Milestones</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="modal-background hidden" id="modal-back"></div>
+<table style="border-collapse: collapse;">
+    <tbody>
+        <tr style="height: 64px;">
+            <td style="width: 57.5%;">
+                <a href="javascript:history.go(-1)" class="go-back-white">
+                    <img class="img-back" alt="Go back" src="assets/img/go-back.svg"/>
+                </a>
+                <div class="order-number" id="order-number">
+                    #SH951456
+                </div>
+            </td>
+            <td class="top-btn-gatein">
+                <span style="position: absolute; left: calc(12% - 25px);" id="map-btn">
+                    <img height="20" width="17" src="assets/img/map-point.svg"/>  
+                    <span class="grey-text">Map</span>
+                </span>
+                <span style="position: absolute; right: calc(55% + 13px);" id="status-btn">
+                    <img height="20" width="17" src="assets/img/Status view icon.svg" id="status-btn"/>
+                    <span class="grey-text">Status</span>
+                </span>
+                <!-- New Button -->
+                <span style="position: absolute; left: calc(63% - 8.5px); top: 8px;" id="inspection-btn">
+                    <img height="17" width="40" src="assets/img/inspection.png" id="inspection-btn"/>
+                    <span class="grey-text" style="margin-left: -8px;">Report</span>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+    <tbody class="tracks" id="milestones">
+        <!-- <tr class="track">
+            <td class="place-name">
+                Land O Lakess AR, USA
+            </td>
+            <td class="line-green"></td>
+            <td class="icon-done"></td>
+            <td class="data">
+                <div class="company-name">Onfreight Logistics</div>
+                <div class="location">5821 Ehren Cutoff Land O' Lakes, FL 34639</div>
+                <div class="stats">W: 150lbs V: 30ft 12 Units</div>
+            </td>
+            <td class="view-btn">
+                <img src="assets/img/view-docs.svg"/>
+            </td>
+            <td class="info-container">
+                <div class="top">Pick up</div>
+                <div class="mid">03 Jan</div>
+                <div class="bottom">09:00 am</div>
+            </td>
+        </tr>
+
+        <tr class="track highlited">
+            <td class="place-name">
+                Land O Lakes AR, USA
+            </td>
+            <td class="line-grey"></td>
+            <td class="icon-current"></td>
+            <td class="data">
+                <div class="company-name">Onfreight Logistics</div>
+                <div class="location">5821 Ehren Cutoff Land O' Lakes, FL 34639</div>
+                <div class="stats">W: 150lbs V: 30ft 12 Units</div>
+            </td>
+            <td class="view-btn">
+                <img src="assets/img/view-docs.svg"/>
+            </td>
+            <td class="info-container">
+                <div class="top">Pick up</div>
+                <div class="mid">03 Jan</div>
+                <div class="bottom">09:00 am</div>
+            </td>
+        </tr>
+
+        <tr class="track">
+            <td class="place-name">
+                Land O Lakes AR, USA
+            </td>
+            <td class="line-grey"></td>
+            <td class="icon-to-go"></td>
+            <td class="data">
+                <div class="company-name">Onfreight Logistics</div>
+                <div class="location">5821 Ehren Cutoff Land O' Lakes, FL 34639</div>
+                <div class="stats">W: 150lbs V: 30ft 12 Units</div>
+            </td>
+            <td class="view-btn">
+                <img src="assets/img/view-docs.svg"/>
+            </td>
+            <td class="info-container">
+                <div class="top">Pick up</div>
+                <div class="mid">03 Jan</div>
+                <div class="bottom">09:00 am</div>
+            </td>
+        </tr>  -->
+        <tr><td><img width=100% src="" id="img-append"/></td></tr>
+        <tr><td><p id="img-text"></p></td></tr>
+    </tbody>
+</table>
+<table style="border-collapse: collapse; position: fixed;" id="docs" class="hidden">
+    <tr>
+        <td class="docs" id="docs-container">
+            <!-- <div class="heading" style="font-size: 16px;">Heading</div></br>
+            <div class="image">
+                <img width=100% src="https://demotest.shipmentx.com/assets/poduploads/190322032812screencapture-fms-shipmentx-loadboard-loads-123-loadboard-2021-09-22-16_12_17.png"/>
+            </div></br></br> -->
+        </td>
+    </tr>
+</table>
+
+<table style="border-collapse: collapse;" id="sig" class="hidden">
+    <tr>
+        <td> 
+            <canvas id="sig-canvas">
+                Signature Canvas not supported.
+            </canvas>
+        </td>
+    </tr>
+    <tr>
+        <td class="navigate" style="width: 50%; z-index: 10000;">
+            <div class="btn" onclick="">
+                <div id="sig-clearBtn" class="text" style="padding-left: 5px;">Clear</div>
+            </div>
+        </td>
+        <td class="navigate" style="width: 50%; left: 50%; z-index: 10000;">
+            <div class="btn" onclick="">
+                <div id="sig-submitBtn" class="text" style="padding-left: 5px;">Save</div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<div class="navigate hidden" id="drop">
+    <div class="btn" style="left: 10%">
+        <img src="assets/img/pick-up.svg"/> 
+        <div class="text" style="padding-left: 5px;">Drop</div>
+    </div>
+    <div style="position: absolute; right: 10%">
+        <img src="assets/img/proof_of_drop.svg" onclick="openModal()"/> 
+    </div>
+</div>
+
+<div class="navigate hidden" id="gate-out">
+    <div class="btn" onclick="callSetStatusApi(3)">
+        <img src="assets/img/gate out.svg"/> 
+        <div class="text" style="padding-left: 5px;">Gate-out</div>
+    </div>
+</div>
+
+
+<div class="navigate hidden" id="in-transit">
+    <div class="btn" onclick="callSetStatusApi(4)">
+        <img src="assets/img/in-transit.svg"/> 
+        <div class="text" style="padding-left: 5px;">In-transit</div>
+    </div>
+</div>
+
+<div class="navigate hidden" id="pick-up">
+    <div class="btn" style="left: 10%">
+        <img src="assets/img/pick-up.svg"/> 
+        <div class="text" style="padding-left: 5px;">Pick up</div>
+    </div>
+    <div style="position: absolute; right: 10%">
+        <img src="assets/img/proof-of-pickup.svg" onclick="openModal()"/> 
+    </div>
+</div>
+
+<div class="navigate hidden" id="gate-in">
+    <div class="btn" onclick="callSetStatusApi(2)">
+        <img src="assets/img/Gate in.svg"/> 
+        <div class="text" style="padding-left: 5px;">Gate-in</div>
+    </div>
+</div>
+
+<div class="navigate hidden" id="back-mstone">
+    <div class="btn">
+        <div class="text" style="padding-left: 5px;">Back</div>
+    </div>
+</div>
+
+<div class="modal-popup hidden" id="modal">
+    <div class="close-btn" id="modal-close" onclick="closeModal()">
+        x
+    </div>
+    <div style="height: 56px;">
+        <div class="text">Add PickUp documents</div>
+    </div>
+
+    <input type='file' id="camera_in" capture="camera" accept="image/*" onchange="camera_capture_ios(this);" hidden />
+    <div class="section" id="camera">
+        <div class="icon">
+            <img src="assets/img/camera.svg"/>
+        </div>
+        <div class="text" style="width: 90%;" id="add-cam-text">Take a photo</div>
+    </div>
+
+    <input type='file' id="upload_file_in" accept="image/*" onchange="upload_file_ios(this);" hidden />
+    <div class="section" style="left: 33.33%" id="upload-file">
+        <div class="icon">
+            <img src="assets/img/gallery.svg"/>
+        </div>
+        <div class="text" style="width: 90%;" id="add-gallery-text">Add from gallery</div>
+    </div>
+
+    <div class="section" style="right: 0px;" id="upload-sig">
+        <div class="icon">
+            <img src="assets/img/signature.svg"/>
+        </div>
+        <div class="text" style="width: 90%;" id="add-sig-text">Signature</div>
+    </div>
+    <!-- <div style="height: 32px; ">
+        <div class="bttn">Upload</div>
+    </div> -->
+</div>
+
+
+
+<!-- <div id="loading">
+    <div class="popup-bg">
+        <div class="center-loading">
+            <div id="file-name" class="text-loading">
+                Loading....
+            </div>
+            <div id="percent-text" class="text-loading" style="font-size: 20px">
+                20%
+            </div>
+            <div id="progressbar">
+                <div id="progressbar-progress"></div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script>
+
+// initiate all the variables and constants
+const TRIP = getSelectedTrip();
+const DRIVER = getUser();
+var stops = null;
+var selectedFilename = ''
+var fileBlob = null
+var curr_stop_type = ''
+var curr_stop_id = ''
+var sigDrawName = ''
+var signBlob = null
+var camFileName = ''
+var camBlob = null
+var cam_orntn = -2
+var file_orntn = -2
+
+function set_progress(value) {
+    $("#progressbar-progress").css("width",`${value}%`);
+}
+
+// if any of the three file (signature, camera image, or image/pdf from internal storage) 
+// is uploaded then call the sesStatusApi for pickup-drop 
+$('#pick-up .btn, #drop .btn').on('click', function () {
+    console.log($(this));
+    if(selectedFilename != '' || sigDrawName != '' || camFileName != '') 
+        callSetStatusApi(1)
+    else 
+        warning('No File Selected!', 'Please select a file to upload.')
+});
+
+// closes the opened bottom Modal Sheet on clicking close (X) on the sheet
+function closeModal() {
+    $('#modal-back').addClass('hidden')
+    $('#modal').addClass('hidden')
+}
+
+$('#map-btn').on('click', function () {
+    window.location = "shipment_acceptance.html"
+});
+
+$('#status-btn').on('click', function () {
+    window.location = "shipment_status_view.html"
+});
+
+$('#inspection-btn').on('click', function () {
+    window.location = "shipment_inspection.html"
+});
+// when on docs window the back button makes the docs window and back button hidden and shows
+// the milestones window
+$('#back-mstone').on('click', function () {
+    $('#docs').addClass('hidden')
+    $('#back-mstone').addClass('hidden')
+    $('#milestones').removeClass('hidden')
+
+    // $('#docs-btn').toggleClass('hidden')
+    // $('#fetch-text').toggleClass('hidden')
+
+    document.getElementById('docs-container').innerHTML = ''
+});
+
+
+
+// handle upload file button click on bottom modal sheet
+$('#upload-file').on('click', function () {
+    selectedFilename = ''
+    
+    if(getOS() == 'iOS')
+        document.getElementById('upload_file_in').dispatchEvent(new MouseEvent("click"));
+    else
+        openFileDialog("image/*, application/pdf" , fileDialogChanged)
+    // window.location = "upload_test.html";
+
+});
+
+
+// handle camera button click on bottom modal sheet
+$('#camera').on('click', function () {
+    console.log('camera')
+    camFileName = ''
+    if(getOS() == 'iOS')
+        document.getElementById('camera_in').dispatchEvent(new MouseEvent("click"));
+    else
+        openCamera("image/*" , picCaptured)
+
+    // window.location = "test.html";
+});
+
+
+// handle signature button in the bottom modal sheet
+$('#upload-sig').on('click', function () {
+    drawSignature()
+});
+
+// shows the bottom modal sheet
+function openModal() {
+    $('#modal-back').removeClass('hidden')
+    $('#modal').removeClass('hidden')
+}
+
+// call getshipmentstops api
+getshipmentstops(TRIP.shift_id, TRIP.shift_veh_id, TRIP.id, 'shipment_milestone');
+
+
+// populates all the dynamic texts in the view
+function populate_data_milestone(data) {
+    document.getElementById('order-number').innerHTML = TRIP.shipmentid;
+    // document.getElementById('order-number').innerHTML = getOS();
+    stops = data
+    changeButton()
+    milestones = document.getElementById('milestones');
+
+    // iterate throught the milestones data array and create view list of milestones 
+    // in the shipment
+    for(i=0; i<data.length; i++) {
+        var tr = document.createElement('tr');
+        tr.className = 'track';
+        tr.innerHTML +=
+
+        // `<tr class="track">
+            
+            `<td class="place-name">
+                ${camelCase(data[i].stopname)}
+            </td>`;
+        if(data[i].status == 'C') {
+            if(i != data.length - 1) {
+                tr.innerHTML += 
+                `<td class="line-green"></td>
+                <td class="icon-done"></td>`;
+            }
+            else {
+                tr.innerHTML += 
+                `<td class="icon-done"></td>`;
+            }
+        }
+        else if(data[i].status == 'S') {
+            tr.className = 'track highlited';
+            if(i != data.length - 1) {
+                tr.innerHTML += 
+                `<td class="line-grey"></td>
+                <td class="icon-current"></td>`;
+            }
+            else {
+                tr.innerHTML += 
+                `<td class="icon-current"></td>`;
+            }
+        }
+        else {
+            if(i != data.length - 1) {
+                tr.innerHTML += 
+                `<td class="line-grey"></td>
+                <td class="icon-to-go"></td>`;
+            }
+            else {
+                tr.innerHTML += 
+                `<td class="icon-to-go"></td>`;
+            }
+        }
+
+
+        tr.innerHTML += 
+            `<td class="data">
+                <div class="company-name">${camelCase(data[i].address)}</div>
+                <div class="location">${data[i].cargo}</div>
+                <div class="stats">W: ${data[i].shipment_weight} V: ${data[i].shipment_volume}<sup>3</sup> 12 Units</div>
+            </td>
+            <td class="view-btn" onclick=callGetDocumentsApi(${data[i].id})>
+                <span id="fetch-text${data[i].id}" style="font-size: 8px;" class="hidden">Fetching...</span>
+                <img id="docs-btn${data[i].id}" class="" src="assets/img/view-docs.svg"/>
+            </td>`;
+            if(data[i].ship_type == 'P') {
+                tr.innerHTML += 
+                `<td class="info-container">
+                    <div class="top">Pick up</div>
+                    <div class="mid">${get_date(data[i].enddate, DRIVER.timezone)}</div>
+                    <div class="bottom">${get_time(data[i].enddate, DRIVER.timezone).replace(/AM|PM/gi, function (x) {return x.toLowerCase();})}</div>
+                </td>`;
+            }
+            else {
+                tr.innerHTML += 
+                `<td class="info-container">
+                    <div class="top">Drop</div>
+                    <div class="mid">${get_date(data[i].enddate, DRIVER.timezone)}</div>
+                    <div class="bottom">${get_time(data[i].enddate, DRIVER.timezone).replace(/AM|PM/gi, function (x) {return x.toLowerCase();})}</div>
+                </td>`;
+            }
+         milestones.appendChild(tr);
+    }
+    // drawSignature()
+}
+
+// opens file picker for all OS except iOS
+function openFileDialog(accept, callback) {  
+    var inputElement = document.createElement("input");
+    inputElement.type = "file";
+    inputElement.name = "file_name";
+    inputElement.accept = accept;
+    inputElement.addEventListener("change", callback)
+
+    inputElement.dispatchEvent(new MouseEvent("click")); 
+}
+
+
+// opens camera for android and file picker dialog for PC.
+function openCamera(accept, callback) { 
+    if(getOS() == 'Android')
+        Android.showToast('opened Camera') 
+    var inputElement = document.createElement("input");
+    inputElement.type = "file";
+    inputElement.name = "file_name";
+    inputElement.accept = accept;
+    inputElement.setAttribute("capture", "camera");
+    inputElement.addEventListener("change", callback)
+    console.log(inputElement)
+    inputElement.dispatchEvent(new MouseEvent("click"));    
+}
+
+
+// the callback function whuch gets called when a picture is captured from android 
+// it also changes the image to a blob file named 'camBlob' and save the filename in 'camFileName'
+// variable
+function picCaptured (event) {
+    console.log('captured file');
+    [...this.files].forEach(file => {
+        camFileName = file.name
+        document.getElementById('add-cam-text').innerHTML = file.name
+        document.getElementById('add-cam-text').style = 'word-break: break-all; width: 90%; color: #00c294;' 
+        // document.getElementById('img-text').innerHTML = file
+        console.log(file)
+        var reader = new FileReader();
+        reader.readAsDataURL(file)
+        reader.onload = function(e) {
+            fileDataURL = reader.result;
+            // document.getElementById('img-append').setAttribute("src", fileDataURL)
+            
+            // console.log(fileDataURL);
+            camBlob = base64toBlob(fileDataURL)
+            // document.getElementById('img-text').innerHTML += camBlob.size + " " + camBlob.type +  "\n"
+            console.log(camBlob.size)
+        };
+    });
+}
+
+
+
+// the callback function whuch gets called when a picture/pdf is uploaded from android 
+// it also changes the image to a blob file named 'fileBlob' and save the filename in 
+// 'selectedFileName' variable
+function fileDialogChanged (event) {
+    console.log('changed file');
+    [...this.files].forEach(file => {
+        console.log(file)
+        selectedFilename = file.name
+        document.getElementById('add-gallery-text').innerHTML = file.name
+        document.getElementById('add-gallery-text').style = 'word-break: break-all; width: 90%; color: #00c294;' 
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file)
+        reader.onload = function(e) {
+            fileDataURL = reader.result;
+            // console.log('before', fileDataURL)
+            // retfileDataURL = resizeImage(fileDataURL)
+            // console.log('after', retfileDataURL)
+            // document.getElementById('img-append').setAttribute("src", fileDataURL)
+            // console.log(fileDataURL);
+            fileBlob = base64toBlob(fileDataURL)
+            // // document.getElementById('img-text').innerHTML += fileBlob.size + " " + fileBlob.type  + "\n"
+            // console.log(fileBlob)
+        }; 
+    });
+}
+
+
+// hides the milestones view ,shows the documents view, populates all the documents fetched
+function populate_docs(data, stop_id) {
+    if(data.length < 1) {
+        warning('Empty!', 'Sorry no Data available to show')
+        $(`#docs-btn${stop_id}`).toggleClass('hidden')
+        $(`#fetch-text${stop_id}`).toggleClass('hidden')
+        return
+    } else {
+
+        $(`#docs-btn${stop_id}`).removeClass('hidden')
+        $(`#fetch-text${stop_id}`).addClass('hidden')
+
+        docs_container = document.getElementById('docs-container')
+        $('#docs').removeClass('hidden')
+        $('#back-mstone').removeClass('hidden')
+        $('#milestones').addClass('hidden')
+
+
+        for(i=0; i<data.length; i++) {
+            name_splitted = data[i].document_path.split('.')
+            if(name_splitted[name_splitted.length-1] != 'pdf') {
+                docs_container.innerHTML +=
+                `<div class="heading" style="font-size: 16px;">${data[i].document_type}</div></br>
+                <div>
+                    <img width=100% src=${data[i].document_path} />
+                </div></br></br>`;
+            } else {
+                docs_container.innerHTML +=
+                `<div class="heading" style="font-size: 16px;">${data[i].document_type}</div></br>
+                <div class="">
+                    <iframe src="https://docs.google.com/gview?embedded=true&url=${data[i].document_path}" height=${window.innerHeight * 0.65} style="width: 100%; border: none"></iframe> 
+                </div></br></br>`;
+                
+            }
+        }
+    }
+}
+
+
+// fetches all documents associated with a stop from server and automatically 
+// call populate_docs function
+function callGetDocumentsApi(stop_id) {
+    console.log('stop_id', TRIP.shift_id, stop_id)
+    $(`#docs-btn${stop_id}`).toggleClass('hidden')
+    $(`#fetch-text${stop_id}`).toggleClass('hidden')
+
+    getshipmentdocuments(TRIP.shift_id, stop_id)
+    // getshipmentdocuments(94, 232)
+}
+
+
+// calls the setShipstopStatus endpoint which updates the current status of shipment eg:
+// Gate-In, PickUp, Gate-Out etc.
+function callSetStatusApi(type) {
+    console.log('STOPS', stops)
+    var shiptype = 0;
+    for (i = 0; i<stops.length; i++) {
+        if(stops[i].status == "S") {
+            shiptype = stops[i].last_stop
+            break
+        }
+    }
+    if( i == stops.length && shiptype != 1)
+        return false
+
+    var lat_lng_obj = getLatLng()
+    setShipstopStatus( 
+                        type,
+                        lat_lng_obj.latitude,    // stops[i].plat,
+                        lat_lng_obj.longitude,    // stops[i].plng,
+                        TRIP.id,
+                        TRIP.shift_id,
+                        stops[i].id,
+                        stops[i].detail_id,
+                        stops[i].ship_type,
+                        DRIVER.id,
+                        stops[i].ship_type,
+                        getShipmentDocTypes()[0].id,
+                        DRIVER.timezone,
+                        selectedFilename,
+                        fileBlob,
+                        sigDrawName,
+                        signBlob,
+                        camFileName,
+                        camBlob,
+                        cam_orntn,    // EXIF code of image for ios else -2
+                        file_orntn     // EXIF code of image for ios else -2
+                    )
+
+    selectedFilename = ''
+    return true
+}
+
+// converts base64 filetype to blob file
+function base64toBlob(dataUrl) {
+    base64type = dataUrl.split(';')[0]
+    base64data = dataUrl.split(';')[1].split(',')[1]
+    const byteCharacters = atob(base64data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], {type: base64type});
+    return blob
+}
+
+
+// calls the getshipstatuses function from sript.js on current stopId and that function calls
+// changeStatusButton with the array of stop_statuses as parameter
+function changeButton() {
+    for (i = 0; i<stops.length; i++) {
+        if(stops[i].status == "S") {
+            curr_stop_id = stops[i].id
+            curr_stop_type = stops[i].ship_type
+            break
+        }
+    }
+    if(i == stops.length)
+        return 
+    getshipstatuses(TRIP.id, DRIVER.timezone, 'milestone', stops[i].id)
+}
+
+
+// changes the current visible status button on screen depending upon the status of the 
+// current stop
+function changeStatusButton(stop_statuses, stop_id) {
+    console.log(curr_stop_type)
+    if (curr_stop_type == 'P') {
+        if(stop_statuses.length == 0) {
+            $('#gate-in').removeClass('hidden')
+            return
+        }
+        if(stop_statuses.length == 2){
+            status_str = stop_statuses[stop_statuses.length - 2].status_name
+        }else{
+            status_str = stop_statuses[stop_statuses.length - 1].status_name
+        }
+        console.log(status_str)
+        switch(status_str) {
+            case 'Pickup Or Drop':
+                $('#gate-out').removeClass('hidden')
+                break
+            case 'Gate In':
+                $('#pick-up').removeClass('hidden')
+                break
+            default: 
+                break
+        }
+    } else {
+        if(stop_statuses.length == 0) {
+            $('#in-transit').removeClass('hidden')
+            return
+        }
+        if(stop_statuses.length == 3){
+            status_str = stop_statuses[stop_statuses.length - 3].status_name
+        }else {
+            if(stop_statuses.length == 2){
+                status_str = stop_statuses[stop_statuses.length - 2].status_name
+            }else{
+                status_str = stop_statuses[stop_statuses.length - 1].status_name
+            }
+        }
+        if (curr_stop_type == 'D') {
+            switch(status_str) {
+                case 'Gate In':
+                    $('#drop').removeClass('hidden')
+                    break
+                case 'Pickup Or Drop':
+                    $('#gate-out').removeClass('hidden')
+                    break
+                case "In-Transit":
+                    $('#gate-in').removeClass('hidden')
+                    break
+                
+                default:
+                    break
+            }
+        }else{
+            switch(status_str) {
+                case 'Gate In':
+                    $('#drop').removeClass('hidden')
+                    break
+                case 'Pickup Or Drop':
+                    $('#gate-out').removeClass('hidden')
+                    break
+                case "In-Transit":
+                    $('#gate-in').removeClass('hidden')
+                    break
+                case "Gate Out":
+                    $('#in-transit').removeClass('hidden')
+                    break
+                
+                default:
+                    break
+            }
+        }
+    }
+}
+
+
+// show the signature draw canvas with the repective buttons and hides milestone view
+function drawSignature() {
+    closeModal()
+    $('#milestones').addClass('hidden')
+    $('#sig').removeClass('hidden')
+    document.getElementById('sig-canvas').height = screen.height - 128;
+    document.getElementById('sig-canvas').width = screen.width;
+    console.log(screen.availHeight, screen.height, screen.innerHeight)
+}
+
+
+// this function recieves the signature from signature canvas to milestone view in a 
+// base64 url format and change it to blob type and also initiates the sigDrawName variable
+function sendSigToMilestone(dataUrl) {
+    // document.getElementById('img-append').setAttribute("src", dataUrl)
+    $('#milestones').removeClass('hidden')
+    $('#sig').addClass('hidden')
+    openModal()
+    sigDrawName = "SIGN" + TRIP.shipmentid + curr_stop_id + ".png";
+    document.getElementById('add-sig-text').innerHTML = sigDrawName;
+    document.getElementById('add-sig-text').style = 'word-break: break-all; width: 90%; color: #00c294;' 
+    signBlob =  base64toBlob(dataUrl)
+    // document.getElementById('img-text').innerHTML += signBlob.size + " " + signBlob.type + "\n"
+    console.log(signBlob)
+}
+
+
+// gets called when there is a click on upload file button in the bottom modal sheet, recieves 
+// image/pdf from ios converts it to blob type and stores the file name in 'selectedFilename' variable
+function upload_file_ios(input) {
+    // test for getting orientation of image
+    getOrientation(input.files[0], function(orn) {
+        console.log('orientation: ' + orn);
+        file_orntn = orn
+    });
+
+    if (input.files && input.files[0]) {
+    file = input.files[0]
+    selectedFilename = file.name
+    document.getElementById('add-gallery-text').innerHTML = file.name
+    document.getElementById('add-gallery-text').style = 'word-break: break-all; width: 90%; color: #00c294;' 
+    var reader = new FileReader();
+    reader.onload = function (e) {
+    fileDataURL = reader.result;
+    // document.getElementById('img-append').setAttribute("src", fileDataURL)
+    // console.log(fileDataURL);
+        fileBlob = base64toBlob(fileDataURL)
+        console.log(fileBlob)
+    };
+    reader.readAsDataURL(file);
+    }
+}
+
+
+
+// gets called when there is a click on camera button in the bottom modal sheet, recieves 
+// captured image from ios converts it to blob type and stores the file name in 'camFilename' variable
+function camera_capture_ios(input) {
+
+    // test for getting orientation of image
+    getOrientation(input.files[0], function(orn) {
+        console.log('orientation: ' + orn);
+        cam_orntn = orn
+    });
+
+
+    if (input.files && input.files[0]) {
+    file = input.files[0]
+    camFileName = "CAM_" + TRIP.id + "_" +  curr_stop_id + ".jpg"
+    document.getElementById('add-cam-text').innerHTML = camFileName
+    document.getElementById('add-cam-text').style = 'word-break: break-all; width: 90%; color: #00c294;' 
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        fileDataURL = reader.result;
+
+        // var image = new Image();
+        // image.src = fileDataURL;
+
+        // //Validate the File Height and Width.
+        // image.onload = function () {
+        //     if(this.width > this.height) {
+        //         orntn = 'landscape'
+        //         console.log(this.width, this.height, orntn)
+        //     } else {
+        //         orntn = 'portrait'
+        //     }
+        //     console.log(orntn)
+        // }
+
+        // document.getElementById('img-append').setAttribute("src", fileDataURL)
+    // console.log(fileDataURL);
+        camBlob = base64toBlob(fileDataURL)
+        console.log(camBlob)
+
+    };
+    reader.readAsDataURL(file);
+    }
+}
+
+
+
+// get ios image orientation before uploading
+function getOrientation(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+
+        var view = new DataView(e.target.result);
+        if (view.getUint16(0, false) != 0xFFD8)
+        {
+            return callback(-2);
+        }
+        var length = view.byteLength, offset = 2;
+        while (offset < length) 
+        {
+            if (view.getUint16(offset+2, false) <= 8) return callback(-1);
+            var marker = view.getUint16(offset, false);
+            offset += 2;
+            if (marker == 0xFFE1) 
+            {
+                if (view.getUint32(offset += 2, false) != 0x45786966) 
+                {
+                    return callback(-1);
+                }
+
+                var little = view.getUint16(offset += 6, false) == 0x4949;
+                offset += view.getUint32(offset + 4, little);
+                var tags = view.getUint16(offset, little);
+                offset += 2;
+                for (var i = 0; i < tags; i++)
+                {
+                    if (view.getUint16(offset + (i * 12), little) == 0x0112)
+                    {
+                        return callback(view.getUint16(offset + (i * 12) + 8, little));
+                    }
+                }
+            }
+            else if ((marker & 0xFF00) != 0xFF00)
+            {
+                break;
+            }
+            else
+            { 
+                offset += view.getUint16(offset, false);
+            }
+        }
+        return callback(-1);
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+
+</script>
+
+
+</body>
+</html>

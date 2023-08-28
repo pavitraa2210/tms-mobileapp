@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport"/>
+    <title>Create Shipment</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<table style="border-collapse: collapse;">
+    <tbody>
+        <tr style="height: 64px;">
+            <td>
+                <a href="javascript:history.go(-1)" class="go-back-white">
+                    <img class="img-back" alt="Go back" src="assets/img/go-back.svg"/>
+                </a>
+                <div class="order-number">
+                    Create Shipment
+                </div>
+            </td>
+        </tr>
+    </tbody>
+
+    <tbody class="scroll" id="form">
+        <tr style="height: 3px;"></tr>
+
+        <tr class="field-contain">
+            <td>  
+                <input class="field-input" placeholder="Customer" id="customer" type="text"/>
+                <div id="customer-dropdown"></div>
+            </td>
+            <td>
+                <img class="field-icon" src="assets/img/person-icon.svg">
+            </td>
+        </tr>
+
+        <tr class="grad-container">
+            <td class="grad-container-head">Pickup</td>
+        </tr>
+
+        <tr class="field-contain" style="top: 85px">
+            <td>  
+                <input class="field-input" placeholder="Party" id="pickupParty" type="text"/>
+                <div id="pickup-party-dropdown"></div>
+            </td>
+            <td>
+                <img class="field-icon" src="assets/img/person-icon.svg">
+            </td>
+        </tr>
+
+        <tr class="field-contain" style="top: 135px">
+            <td>  
+                <input class="field-input" placeholder="Origin" id="pickupLocation" type="text"/>
+            </td>
+            <td>
+                <img class="field-icon" src="assets/img/Origin icon.svg">
+            </td>
+        </tr>
+
+        <tr class="grad-container" style="top: 191px">
+            <td class="grad-container-head">Destination</td>
+        </tr>
+
+        <tr class="field-contain" style="top: 225px">
+            <td>  
+                <input class="field-input" placeholder="Party" id="destParty" type="text"/>
+                <div id="dest-party-dropdown"></div>
+            </td>
+            <td>
+                <img class="field-icon" src="assets/img/person-icon.svg">
+            </td>
+        </tr>
+
+        <tr class="field-contain" style="top: 275px">
+            <td>  
+                <input class="field-input" placeholder="Destination" id="destLocation" type="text"/>
+            </td>
+            <td>
+                <img class="field-icon" src="assets/img/destination.svg">
+            </td>
+        </tr>
+
+        <tr class="grad-container" style="top: 331px; height: 118px;">
+            <td class="grad-container-head">Cargo</td>
+        </tr>
+
+        <tr>
+            <td class="field-contain-half" style="top: 366px">  
+                <input class="field-input" placeholder="Pallets" id="pallets" type="number"/>
+            </td>
+            <td class="field-contain-half" style="top: 366px; right: 0px">  
+                <input class="field-input" placeholder="PCs" id="pc" type="number"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field-contain-half" style="top: 408px;">  
+                <input class="field-input" placeholder="Boxes" id="boxes" type="number"/>
+            </td>
+            <td class="field-contain-half" style="top: 408px; right: 0px;">  
+                <input class="field-input" placeholder="Shipment" id="shipment" type="number"/>
+            </td>
+        </tr>
+
+        <tr class="grad-container" style="top: 459px; height: 160px;">
+            <td class="grad-container-head">References</td>
+        </tr>
+
+        <tr>
+            <td class="field-contain-half" style="top: 494px;">  
+                <input class="field-input" placeholder="Reference ID" onchange="fill_reference(this)" id="ref-id-1" type="text"/>
+            </td>
+            <td class="field-contain-half" style="top: 494px; right: 0px;">  
+                <input class="field-input" placeholder="Reference Value" id="ref-val1" type="text" disabled/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field-contain-half" style="top: 536px;">  
+                <input class="field-input" placeholder="Reference ID" onchange="fill_reference(this)" id="ref-id-2" type="text"/>
+            </td>
+            <td class="field-contain-half" style="top: 536px; right: 0px;">  
+                <input class="field-input" placeholder="Reference Value" id="ref-val2" type="text" disabled/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="field-contain-half" style="top: 578px;">  
+                <input class="field-input" placeholder="Reference ID" onchange="fill_reference(this)" id="ref-id-3" type="text"/>
+            </td>
+            <td class="field-contain-half" style="top: 578px; right: 0px;">  
+                <input class="field-input" placeholder="Reference Value" id="ref-val3" type="text" disabled/>
+            </td>
+        </tr>
+        <tr>
+            <td class="warning">
+                <span id="warning" class="hidden">Error</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="navigation">
+    <div class="btn" id="submit">
+        <div class="text">Submit</div>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9DM7bHv4KTp7b0yChgfYBO1Xsgb5kLHk&v=3.exp&sensor=false&libraries=places"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+var customer_data = null;
+var pickupParty_data = null;
+var destParty_data = null; 
+var pickup_location = null;
+var dest_location = null;
+var uom = [{"name":"pallets","value":"0"},{"name":"boxes","value":"0"},{"name":"pc","value":"0"},{"name":"shipment","value":"0"}];
+const references = [];
+
+$(document).ready(function () {
+
+    // anything the user enters in any field the error message at the bottom disappears
+    $('input').change( function () {
+        $('#warning').addClass('hidden')
+    });
+
+    // get data from the get_parties_data function in script.js and show the parties 
+    // as a dropdown in customer field
+    $('#customer').keyup( function () {
+        var driver = getUser();
+        var user_id = driver.user_id;
+        var dropdown =  document.getElementById("customer-dropdown");
+        get_parties_data(user_id, dropdown, this.value, "customer");
+    });
+
+ 
+    
+    // get data from the get_parties_data function in script.js and show the parties 
+    // as a dropdown in pickup party field
+    $('#pickupParty').keyup( function () {
+        var driver = getUser();
+        var user_id = driver.user_id;
+        var dropdown =  document.getElementById("pickup-party-dropdown");
+        get_parties_data(user_id, dropdown, this.value, "pickupParty");
+    });
+
+
+    // get data from the get_parties_data function in script.js and show the parties 
+    // as a dropdown in destination party field
+    $('#destParty').keyup( function () {
+        var driver = getUser();
+        var user_id = driver.user_id;
+        var dropdown =  document.getElementById("dest-party-dropdown");
+        get_parties_data(user_id, dropdown, this.value, "destParty");
+    });
+
+
+    // auto suggest google location data in dropdown in pickup location
+    // on entering more than 2 characters
+    $('#pickupLocation').keyup( function () {
+        pickup_location = find_places(this, "pickup");
+    });
+
+
+    // auto suggest google location data in dropdown in drop location
+    // on entering more than 2 characters
+    $('#destLocation').keyup( function () {
+        dest_location = find_places(this, "destination");
+    });
+
+
+
+    $('#pallets').change( function () {
+        // cargo_change("pc", "shipment", "boxes");
+        uom[0] = JSON.parse(JSON.stringify({
+            "name": "pallets",
+            "value": this.value
+        }));
+        console.log(uom)
+    });
+
+    $('#boxes').change( function () {
+        // cargo_change("pc", "shipment", "pallets");
+        uom[1] = JSON.parse(JSON.stringify({
+            "name": "boxes",
+            "value": this.value
+        }));
+        console.log(uom)
+    });
+
+    $('#pc').change( function () {
+        // cargo_change("pallets", "shipment", "boxes");
+        uom[2] = JSON.parse(JSON.stringify({
+            "name": "pc",
+            "value": this.value
+        }));
+        console.log(uom)
+    });
+
+    $('#shipment').change( function () {
+        // cargo_change("pc", "pallets", "boxes");
+        uom[3] = JSON.parse(JSON.stringify({
+            "name": "shipment",
+            "value": this.value
+        }));
+        console.log(uom)
+    });
+
+    $('#submit').click( function () {
+        submit_data();
+    });
+});
+
+
+function fill_reference(reference) {
+    var id = reference.id.split("-")[2];
+    console.log(id);
+    if(reference.value != '')
+            $(`#ref-val${id}`).prop("disabled", false);
+        else
+            $(`#ref-val${id}`).prop("disabled", true);
+
+    $(`#ref-val${id}`).change( function () {
+        if(this.value != '') {
+            references[id-1] = JSON.parse(JSON.stringify({
+                "reference_id": reference.value,
+                "value": this.value
+            }));
+        }
+        else {
+            references[id-1] = null;
+        }
+    });
+    console.log(references)
+}
+
+
+// fills the parties dropdown list data in customer, pickup and destination 
+function fill_dropdown(data, dropdown, caller_id) {
+    dropdown.innerHTML = null;
+    for(let i=0; i<data.length; i++)
+    {
+    dropdown.innerHTML += `
+            <div class="dropdown" onclick="selected_party(this, ${caller_id})" data="${data[i].cid} ${data[i].id}">${data[i].name}</div>
+        `;
+        
+        if(i > 4)
+            break;
+    }
+}
+
+// clears the filled in dropdown
+function clear_dropdown(element) {
+    console.log('clear');
+    element.innerHTML = null;
+}
+
+
+// create an object of the selected party data and proceed to assign it to the parent field
+function selected_party(data, field){
+    field.value = data.innerHTML
+    var name = data.innerHTML;
+    var cid = data.getAttribute("data").split(" ")[0];
+    var id = data.getAttribute("data").split(" ")[1];
+    data.parentElement.innerHTML = null;
+    var json_data = JSON.parse(JSON.stringify({
+        "id": id,
+        "name": name,
+        "cid": cid
+    }));
+    // console.log(json_data)
+    assign_data(field, json_data);
+}
+
+
+// assigns the dropdown item selected to the parent field (from where the dropdown was created)
+function assign_data(field, data) {
+    switch(field.getAttribute("id")) {
+        case "customer":
+            customer_data = data;
+            break;
+        case "pickupParty":
+            pickupParty_data = data;
+            break;
+        case "destParty":
+            destParty_data = data;
+            break;
+        default:
+            return;
+    }
+}
+
+
+// fill location dropdown using google map api depending upon the input provided by the user in
+// Pickup and Destination locations field
+function find_places(input, caller) {
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    google.maps.event.addListener(autocomplete, 'place_changed', () => {
+        let place = autocomplete.getPlace();
+        
+        if(caller == "pickup")
+            pickup_location = place;
+        else
+            dest_location = place;
+    })
+}
+
+
+// creates an object from all the data entered in the repective fields and calls the 
+// driverCollection function in script.js
+// also populates the error message and displays it if any of the required fileds is empty or 
+// entered input mismatches expected input
+
+function submit_data()
+{
+    var warn = document.getElementById("warning");
+    const scrollingElement = (document.getElementById('form'));
+    
+    if(customer_data == null) {
+        warn.innerHTML = 'Customer field cannot be empty'
+        warn.classList.remove('hidden')
+        scrollingElement.scrollTop = scrollingElement.scrollHeight;
+        return
+    }
+    if(pickupParty_data == null || pickup_location == null) {
+        warn.innerHTML = 'Pickup fields cannot be empty'
+        warn.classList.remove('hidden')
+        scrollingElement.scrollTop = scrollingElement.scrollHeight;
+        return
+    }
+    if(destParty_data == null || dest_location == null) {
+        warn.innerHTML = 'Destination fields cannot be empty'
+        warn.classList.remove('hidden')
+        scrollingElement.scrollTop = scrollingElement.scrollHeight;
+        return
+    }
+    
+    var data = JSON.stringify({
+        "customer_id": customer_data.id,
+        "pickup_pary_id": pickupParty_data.id,
+        "delivery_pary_id": destParty_data.id,
+        "uoms": uom,
+        "pickup": pickup_location,
+        "destination": dest_location,
+        "references": references
+    });
+    console.log(JSON.parse(data))
+    drivercollection(data);
+}
+</script>
+
+</body>
+</html>

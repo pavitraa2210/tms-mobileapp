@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport"/>
+    <title>Settings</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body style="background: #0063970D;">
+<table style="border-collapse: collapse;">
+    <tbody style="background: white;">
+        <tr style="height: 64px;">
+            <td> 
+                <a href="javascript:history.go(-1)" class="go-back-white">
+                    <img class="img-back" alt="Go back" src="assets/img/go-back.svg"/>
+                </a>
+                <div class="order-number">
+                    Settings
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="border-collapse: collapse;">
+    <tbody>
+        <tr style="height: 32.5px; width: 100%;">
+            <td style="position: absolute; font-size: 14px; margin-top: 12px; margin-left: 6.666%;">Privacy</td>
+        </tr>
+    </tbody>
+    <tbody class="settings-container">
+        <tr class="setting" style="top: 1px;">
+            <td class="text td-50">Access GPS</td>
+            <td class="toggle td-50" id="gps"></td>
+        </tr>
+        <tr class="setting" style="top: 43px;">
+            <td class="text td-50">Access Camera</td>
+            <td class="toggle td-50" id="camera"></td>
+        </tr>
+        <!-- <tr class="setting" style="top: 65px;">
+            <td class="text td-50">Access Contacts</td>
+            <td class="toggle td-50" id="contact"></td>
+        </tr> -->
+        <tr class="setting" style="top: 85px;"> 
+            <td class="text td-50">Access File Storage</td>
+            <td class="toggle td-50 on" id="storage"></td>
+        </tr>
+    </tbody>
+</table>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script>
+
+$('.setting .toggle').on('click', function () {
+    console.log(this.id, this.classList.length)
+    // $(`#${this.id}`).toggleClass('on');
+    new_status = null
+    if (this.classList.length%2 == 0)
+        new_status = 'on'
+    else
+        new_status = 'off'
+    
+    if(getOS() == 'Android') {
+        Android.settingChanged(this.id, new_status)
+    }
+
+    if(getOS() == 'iOS') {
+        window.webkit.messageHandlers.settingChanged.postMessage({ name: this.id, status: new_status})
+    }
+});
+
+
+
+
+$(document).ready( function () {
+    if(getOS() == 'iOS') {
+        window.webkit.messageHandlers.settingsScreenAccessed.postMessage({ message: "start"})
+    }
+
+    if(getOS() == 'Android') {
+        Android.settingsScreenAccessed()
+    }
+});
+
+function settings_toggle(name, state) {
+    console.log(name, state)
+    if (state) 
+        name.className = 'toggle td-50 on';
+    else
+        name.className = 'toggle td-50';
+}
+
+</script>
+</body>
+</html>

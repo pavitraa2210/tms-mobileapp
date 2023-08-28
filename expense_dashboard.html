@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <meta name="theme-color" content="#0081C1" />
+    <title>Dashborad For Expenses</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body style="animation: none;">
+    <table style="border-collapse: collapse;">
+        <tbody>
+            <tr style="height: 127px">
+                <td>
+                    <a href="javascript:history.go(-1)" class="go-back-white">
+                        <img class="img-back" alt="Go back" src="assets/img/go-back.svg" />
+                    </a>
+                    <div class="order-number">
+                        Expense Dashboard
+                    </div>
+                </td>
+            </tr>
+    </table>
+    </td>
+    </tr>
+    </tbody>
+    <!--This is the part where the Starting part of the page ends.-->
+
+    <tbody>
+        <tr>
+            <td>
+                <div class="scrollable shipments hidden" id="completed-container">
+                    <!-- <div class="shipment">
+                            <div class="label shipment-number-label">Shipment Number</div>
+                            <div class="value shipment-number-value">#SH123564</div>
+                            <div class="value time-label">16th Jan</div>
+                            <div class="value time-value">09:00 am</div>
+                            <div class="label weight-label">Weight</div>
+                            <div class="value weight-value">14000 lbs</div>
+                            <div class="label distance-label">Distance</div>
+                            <div class="value distance-value">1605 mi</div>
+                            <div class="value from-location">Auburn, NY</div>
+                            <div class="value to-location">Houston, TX</div>
+                            <div class="from-image"></div>
+                            <div class="join-line"></div>
+                            <div class="to-image"></div>
+                        </div>    -->
+                    <div id="fetchText" align=center class=""
+                        style="position: absolute; width: 100%; top: 45%; font-size: 18px; letter-spacing: 2px;">
+                        Fetching Shipments...</div>
+
+                    <div class="empty hidden" id="empty">
+                        <img src="assets/img/boxes.svg" style="position: absolute; top: 30%; width: 40%; left: 30%;">
+                        <spna align=center
+                            style="position: absolute; width: 100%; top: 55%; font-size: 18px; letter-spacing: 2px;">
+                            Empty Here...</spna>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+
+    <tbody id="pen-actv-container" class="">
+        <tr style="height: 52px">
+            <td>
+                <table class="suggestive-panel" style="top: 70px;">
+                    <tr>
+                        <td class="suggestive active" id="active-btn">Accepted</td>
+                        <td class="suggestive" id="pending-btn">Submitted</td>
+                        <td class="suggestive" id="rejected-btn">Rejected</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="scrollable shipments hidden" id="pending-container" style="top:100px;">
+                    <!-- <div class="shipment">
+                            <div class="label shipment-number-label">Shipment Number</div>
+                            <div class="value shipment-number-value">#SH123564</div>
+                            <div class="value time-label">16th Jan</div>
+                            <div class="value time-value">09:00 am</div>
+                            <div class="label weight-label">Weight</div>
+                            <div class="value weight-value">14000 lbs</div>
+                            <div class="label distance-label">Distance</div>
+                            <div class="value distance-value">1605 mi</div>
+                            <div class="value from-location">Auburn, NY</div>
+                            <div class="value to-location">Houston, TX</div>
+                            <div class="from-image"></div>
+                            <div class="join-line"></div>
+                            <div class="to-image"></div>
+                        </div>    -->
+
+                    <!-- <div id="fetchText" align=center class="" style="position: absolute; width: 100%; top: 45%; font-size: 18px; letter-spacing: 2px;">Fetching Shipments...</div> -->
+
+                    <div class="empty hidden" id="empty">
+                        <img src="assets/img/boxes.svg" style="position: absolute; top: 30%; width: 40%; left: 30%;">
+                        <spna align=center
+                            style="position: absolute; width: 100%; top: 58%; font-size: 18px; letter-spacing: 2px;">
+                            Empty Here...</spna>
+                    </div>
+                </div>
+
+                <div class="scrollable shipments" id="active-container" style="top:120px;">
+                    <!--Purly For editing Only not Finale Content -->
+                    <!-- <div class="shipment">
+                            <div class="label shipment-number-label">Vehicle ID</div>
+                            <div class="value shipment-number-value">AP31EY4036</div>
+                            <div class="label status-label">Status</div>
+                            <div class="value status-value green">Accepted</div>
+                            <div class="label weight-label">Expense Type</div>
+                            <div class="value weight-value">Loading Charges</div>
+                            <div class="label eta-label">Date</div>
+                            <div class="value eta-value">Jan 17 2023</div>
+                            <div class="label amount-label">Amount</div>
+                            <div class="value amount-value">100,000</div>
+                            <div class="label receipt-label">Receipt No.</div>
+                            <div class="value receipt-value">875476219</div>
+                            <!-- <div class="label distance-label">Distance</div>
+                            <div class="value distance-value">1605 mi</div>
+                            <div class="value from-location">Auburn, NY</div>
+                            <div class="value to-location">Houston, TX</div> -->
+                    <!-- <div class="from-image"></div>
+                            <div class="join-line"> </div>
+                            <div class="to-image"></div> -->
+                </div>
+                <!-- <div id="fetchText" align=center class="" style="position: absolute; width: 100%; top: 45%; font-size: 18px; letter-spacing: 2px;">Fetching Shipments...</div> -->
+
+                <div class="empty hidden" id="empty">
+                    <img src="assets/img/boxes.svg" style="position: absolute; top: 30%; width: 40%; left: 30%;">
+                    <spna align=center
+                        style="position: absolute; width: 100%; top: 58%; font-size: 18px; letter-spacing: 2px;">Empty
+                        Here...</spna>
+                </div>
+                </div>
+
+                <div class="scrollable shipments hidden" id="rejected-container" style="top:120px;">
+                    <!-- <div class="shipment">
+                            <div class="label shipment-number-label">Shipment Number</div>
+                            <div class="value shipment-number-value">#SH123564</div>
+                            <div class="value time-label">16th Jan</div>
+                            <div class="value time-value">09:00 am</div>
+                            <div class="label weight-label">Weight</div>
+                            <div class="value weight-value">14000 lbs</div>
+                            <div class="label distance-label">Distance</div>
+                            <div class="value distance-value">1605 mi</div>
+                            <div class="value from-location">Auburn, NY</div>
+                            <div class="value to-location">Houston, TX</div>
+                            <div class="from-image"></div>
+                            <div class="join-line"></div>
+                            <div class="to-image"></div>
+                        </div>    -->
+
+                    <!-- <div id="fetchText" align=center class="" style="position: absolute; width: 100%; top: 45%; font-size: 18px; letter-spacing: 2px;">Fetching Shipments...</div> -->
+
+                    <div class="empty hidden" id="empty">
+                        <img src="assets/img/boxes.svg" style="position: absolute; top: 30%; width: 40%; left: 30%;">
+                        <spna align=center
+                            style="position: absolute; width: 100%; top: 58%; font-size: 18px; letter-spacing: 2px;">
+                            Empty Here...</spna>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </td>
+        </tr>
+    </tbody>
+    </table>
+    <table class="navigation-bar" id="navigation" style="border-collapse: collapse;">
+        <tr>
+            <td></td>
+            <td>
+                <div class="navigation-drawer" id="navigation-drawer"></div>
+            </td>
+        </tr>
+        <tr>
+
+
+            <td>
+                <a class="navigation-item" href="#" id="expense">
+                    <div class="icon">
+                        <img alt="Create" class="icon-image" src="assets/img/expense.jpg" />
+                    </div>
+                    <div class="label">Add Expense</div>
+                </a>
+            </td>
+
+
+
+        </tr>
+        <tr>
+            <td>
+                <a class="navigation-item" href="#" id="settings">
+                    <div class="icon">
+                    </div>
+                    <div class="label">Settings</div>
+                </a>
+            </td>
+            <td>
+                <a class="navigation-item" href="#" id="profile">
+                    <div class="icon">
+                    </div>
+                    <div class="label">Profile</div>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.mobile.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/jquery.toast.js"></script>
+    <script>
+
+        var is_nav_up = false;
+        const DRIVER = getUser()//The User Profie is not opened if this is commentd out.
+
+        load_data();
+
+        $("#search").keyup(function () {
+            console.log(this.value)
+            searchFilter(this.value)
+        });
+
+        $("#navigation").on('swipeup', function () {
+            console.log('swipeup')
+            // $("#navigation").animate(navigationup);
+            $('#navigation').addClass('nav-up')
+            $('#navigation').removeClass('nav-down')
+        });
+
+        $("#navigation").on('swipedown', function () {
+            console.log('swipedown')
+            // $("#navigation").animate({bottom: "-81px"});
+            $('#navigation').addClass('nav-down')
+            $('#navigation').removeClass('nav-up')
+        });
+
+
+        // show active window when swiped right from pending window
+        $("#pending-container").on('swiperight', function () {
+            console.log('swiperight')
+            showActive()
+        });
+        //Rejected Added Right noe for editing only.
+        $("#rejected-container").on('swiperight', function () {
+            console.log('swiperight')
+            showRejected()
+            console.log('swiperight');
+            var selectedExpense = $(this).find('.selected');
+
+            if (selectedExpense.length > 0) {
+                var expenseData = selectedExpense.data('expense');
+                if (expenseData.status === 'Rejected') {
+                    // Store expense data and redirect to edit page
+                    sessionStorage.setItem('resubmitExpense', JSON.stringify(expenseData));
+                    window.location.href = 'edit_expense.html';
+                }
+            }
+        });
+        //Rejected Added Right noe for editing only.
+
+        // show pending window when swiped left from active window
+        $("#active-container").on('swipeleft', function () {
+            console.log('swipeleft')
+            showPending()
+        });
+
+
+        // if navigation drawer middle button is clicked then it will move up or down depending upon
+        // the current position of the drawer
+        $("#navigation-drawer").click(function () {
+            if (!is_nav_up) {
+                // $("#navigation").animate({bottom: "0px"});
+                $('#navigation').addClass('nav-up')
+                $('#navigation').removeClass('nav-down')
+                is_nav_up = true
+            }
+            else {
+                // $("#navigation").animate({bottom: "-81px"});
+                $('#navigation').addClass('nav-down')
+                $('#navigation').removeClass('nav-up')
+                is_nav_up = false;
+            }
+        });
+
+        // switch to pending window when pending button is clicked
+        $('#pending-btn').on('click', function () {
+            showPending()
+        });
+
+
+        // switch to active window when active button is clicked
+        $('#active-btn').on('click', function () {
+            showActive()
+        });
+
+        //Rejected Added Right noe for editing only.
+        $('#rejected-btn').on('click', function () {
+            showRejected()
+        });
+
+        //Rejected Added Right noe for editing only.
+
+
+        // hides the active window from view and shows the pending window
+        function showPending() {
+            $('#pending-btn').addClass('active')
+            $('#active-btn').removeClass('active')
+            $('#pending-container').removeClass('hidden')
+            $('#active-container').addClass('hidden')
+            $('#rejected-container').addClass('hidden')
+            $('#rejected-btn').removeClass('active')
+        }
+
+        // hides the pending window from view and shows the active window
+        function showActive() {
+            $('#pending-btn').removeClass('active')
+            $('#active-btn').addClass('active')
+            $('#rejected-btn').removeClass('active')
+            $('#pending-container').addClass('hidden')
+            $('#rejected-container').addClass('hidden')
+            $('#active-container').removeClass('hidden')
+        }
+
+        //Rejected Added Right noe for editing only.
+        function showRejected() {
+            $('#rejected-btn').addClass('active')
+            $('#active-btn').removeClass('active')
+            $('#rejected-container').removeClass('hidden')
+            $('#active-container').addClass('hidden')
+            $('#pending-btn').removeClass('active')
+            $('#pending-container').addClass('hidden')
+        }
+        //Rejected Added Right noe for editing only.
+
+
+        //These are linked to the selection of the buttons below
+        $('#navigation .navigation-item .icon').on('click', function () {
+            // console.log($(this).parents()[0].id)
+            var btn_clicked = $(this).parents()[0].id
+            switchActiveNavigationButton(btn_clicked)
+        });
+
+        $('#navigation .navigation-item .label').on('click', function () {
+            // console.log($(this).parents()[0].id)
+            var btn_clicked = $(this).parents()[0].id
+            switchActiveNavigationButton(btn_clicked)
+        });
+
+
+        // makes the clicked button highlited and unhighlights the previous highlited button 
+        function switchActiveNavigationButton(btn_clicked) {
+            if (btn_clicked != active_nav_btn) {
+                $(`#${btn_clicked}`).addClass('active')
+                $(`#${active_nav_btn}`).removeClass('active')
+                $(`#${btn_clicked} div img`).attr("src", `assets/img/${btn_clicked}-active.svg`)
+                $(`#${active_nav_btn} div img`).attr("src", `assets/img/${active_nav_btn}-inactive.svg`)
+                active_nav_btn = btn_clicked
+            }
+        }
+
+
+        // set the clicked shipment info to session storage so that it's available accross views
+        // and changes the page to milestone page.
+        $('#active-container').on('click', '.shipment', function () {
+            window.location = "expense_status_view.html";
+            var item = this.data;
+            sessionStorage.setItem("item", JSON.stringify(item));
+        });
+
+
+        // set the clicked shipment info to session storage so that it's available accross views
+        // and changes the page to acceptance page.
+        $('#pending-container').on('click', '.shipment', function () {
+            window.location = "expense_status_view.html";
+            var item = this.data;
+            sessionStorage.setItem("item", JSON.stringify(item));
+        });
+
+
+        $('#expense').on('click', function () {
+            window.location = "expense_add.html";
+        });
+        $('#shipments').on('click', function () {
+            $('#pen-actv-container').removeClass('hidden')
+            $('#completed-container').addClass('hidden')
+        });
+
+
+        // change the window (space between top blue container and the bottom navigation drawer) 
+        // to completed container view
+        $('#closed').on('click', function () {
+            $('#pen-actv-container').addClass('hidden')
+            $('#completed-container').removeClass('hidden')
+        });
+
+        // changes back the view from completed window to active pending window
+        $('#shipments').on('click', function () {
+            $('#pen-actv-container').removeClass('hidden')
+            $('#completed-container').addClass('hidden')
+        });
+
+
+
+        // this function calls the getDriverExpenseData() function in script.js which inturn calls the 
+        // populate data function.
+        function load_data() {
+            var type = "";
+            getDriverExpenseData(type);
+        };
+
+
+        // populates all the text fileds, and iterates throught the shipments list and passes it to 
+        // list_items function for further processings 
+        function populate_data(data, type) {
+
+            sessionStorage.setItem("expenses", JSON.stringify(data.data));
+            var expenses = data.data;
+
+            $('#pending-container #fetchText').addClass('hidden')
+            $('#active-container #fetchText').addClass('hidden')
+            $('#rejected-container #fetchText').addClass('hidden')
+            // $('#completed-container #fetchText').addClass('hidden')
+
+            if (type != 2) {
+                $('#pending-container #empty').removeClass('hidden')
+                $('#active-container #empty').removeClass('hidden')
+                $('#rejected-container #empty').removeClass('hidden')
+            }
+            else {
+                console.log(data.data.trips.length)
+                if (data.data.trips.length > 0) {
+                    console.log(data.data.trips.length)
+                    $('#completed-container #fetchText').addClass('hidden');
+                    $('#completed-container #empty').addClass('hidden');
+                }
+            }
+
+            expenses.forEach(list_items);
+        };
+
+
+        // handles the text and image that is visible when there is no completed shipment for the driver
+        function show_empty_completed_shipments() {
+            $('#completed-container #fetchText').addClass('hidden');
+            $('#completed-container #empty').removeClass('hidden');
+        }
+
+
+        // handles the text and image that is visible when there is no active or pending shipment for
+        // the driver
+        function show_empty_shipments() {
+            $('#pending-container #fetchText').addClass('hidden')
+            $('#active-container #fetchText').addClass('hidden')
+
+            $('#pending-container #empty').removeClass('hidden')
+            $('#active-container #empty').removeClass('hidden')
+        }
+
+
+        // is called as many times as the number of shipments fetched from api in all 3 categories
+        // pending active and completed/closed and creates a list of views for each shipment in the 
+        // respective views
+        function list_items(item, index) {
+            // console.log('item');
+            // console.log(JSON.stringify(item))
+            var div = document.createElement('div');
+
+
+            div.className = 'shipment';
+            div.data = item;//item.shift_id + ' ' + item.shift_veh_id;
+            if (item.status == "No") {
+                div.innerHTML = `
+                        <div class="label vehicle-label">Vehicle Number</div>
+                        <div class="value vehicle-value">${item.vehicle_number}</div>
+                        <div class="label expense-label">Expense Type</div>
+                        <div class="value expense-value">${item.expense_type}</div>
+                        <div class="label status-label">Status</div>
+                        <div class="value status-value green">${item.status}</div>
+                        <div class="label tripid-label">Trip ID</div>
+                        <div class="value tripid-value">${item.trip_id}</div>
+                        <div class="label amount-label">Amount</div>
+                        <div class="value amount-value">${item.amount}</div>
+                        <div class="label date-label">Date</div>
+                        <div class="value date-value">${item.activity_date}</div>
+                        
+                        
+                       
+                        
+                    `;
+                document.getElementById("pending-container").appendChild(div);
+                $('#pending-container #empty').addClass('hidden')
+            } else if (item.status == "Rejected") {
+                div.innerHTML = `
+        <div class="label vehicle-label">Vehicle Number</div>
+                        <div class="value vehicle-value">${item.vehicle_number}</div>
+                        <div class="label expense-label">Expense Type</div>
+                        <div class="value expense-value">${item.expense_type}</div>
+                        <div class="label status-label">Status</div>
+                        <div class="value status-value green">${item.status}</div>
+                        <div class="label tripid-label">Trip ID</div>
+                        <div class="value tripid-value">${item.trip_id}</div>
+                        <div class="label amount-label">Amount</div>
+                        <div class="value amount-value">${item.amount}</div>
+                        <div class="label date-label">Date</div>
+                        <div class="value date-value">${item.activity_date}</div>
+                       
+                      
+
+                        
+                        
+                        `;
+                $('#rejected-container #empty').addClass('hidden')
+                document.getElementById("rejected-container").appendChild(div);
+                if (!location_running) {
+                    startLocationService();
+                    location_running = true; s
+                }
+            }
+
+            else {
+                div.innerHTML = `
+        <div class="label vehicle-label">Vehicle Number</div>
+                        <div class="value vehicle-value">${item.vehicle_number}</div>
+                        <div class="label expense-label">Expense Type</div>
+                        <div class="value expense-value">${item.expense_type}</div>
+                        <div class="label status-label">Status</div>
+                        <div class="value status-value green">${item.status}</div>
+                        <div class="label tripid-label">Trip ID</div>
+                        <div class="value tripid-value">${item.trip_id}</div>
+                        <div class="label amount-label">Amount</div>
+                        <div class="value amount-value">${item.amount}</div>
+                        <div class="label date-label">Date</div>
+                        <div class="value date-value">${item.activity_date}</div>
+                       
+                        
+
+                        `;
+
+                document.getElementById("active-container").appendChild(div);
+                $('#completed-container #fetchText').addClass('hidden')
+            }
+        }
+
+
+        // fetches and lists the completed shipment data 
+        function load_completed_data() {
+            var type = "2";
+            // console.log('calling completed')
+            getDriverExpenseData(type);
+        }
+
+    </script>
+
+</body>
+
+
+
+</html>
