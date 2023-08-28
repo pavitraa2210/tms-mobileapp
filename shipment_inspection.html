@@ -129,7 +129,7 @@
                 </tr>
                 <tr>
                     <td class="field-contain-half" style="top: 870px; width: 180px; background-color: white">
-                        <input class="field-input" placeholder="Driver Signature" type="text" id="signature"
+                        <input class="field-input" placeholder="Driver Signature" type="text" id="drivername"
                             name="driver_name" oninput="this.value = this.value.replace(/[^A-Za-z0-9\s]/g, '')" />
                     </td>
                     <td class="field-contain-half" style="top: 870px; width: 120px;right: 0px;background-color: white;">
@@ -168,18 +168,29 @@
         var operation_data = null;
         var mechanicsignature_data = null;
         var mechanicdate_data = null;
+        var drivername_data=null;
         var driverdate_data = null;
         var truckContainer_data = null;
         var trailerContainer_data = null;
+        var shift_id;
 
         $(document).ready(function () {
             var sessData = getUser();
             getInspectionTypes();
+            load_data();
 
             $("#vehicle").val(sessData.vehicle);
             $("#trip").val(sessData.trip_id);
             vehicle_data = sessData.vehicle_id;
             trip_data = sessData.trip_id;
+        });
+
+        function load_data() {
+            var sessData = getSelectedTrip();
+            shift_id = sessData.shift_id;
+            $("#shift_id").val(shift_id);
+            getVehicleInspectionsDataByTripId(shift_id);
+        }
 
             $('#datetime').change(function () {
                 datetime_data = this.value;
@@ -225,8 +236,8 @@
                 mechanicdate_data = this.value;
             });
 
-            $('#signature').change(function () {
-                driversignature_data = this.value;
+            $('#drivername').change(function () {
+                drivername_data = this.value;
             });
 
             $('#driverdate').change(function () {
@@ -254,7 +265,6 @@
                 submit_data();
             });
 
-        });
 
         function createCheckbox(id, label, type) {
             const checkbox = `<input type="checkbox" class="" id="checkbox_${id}" name="${type}_inspections[]" value="${id}">
@@ -280,6 +290,36 @@
                     trailerContainer.innerHTML += checkbox;
                 }
             });
+            populateFormWithData(data);
+        }
+
+        function populateFormWithData(data) {
+            $("#datetime").val(data.inspection_time);
+            $("#vehicle").val(data.vehicle_no);
+            $("#odometer").val(data.odometer_reading);
+            $("#trailer").val(data.trailer_no);
+            $("#remark").val(data.remarks);
+            $("#condition").prop("checked", data.satisfactory_condition === "1");
+            $("#driversignature").val(data.driver_name);
+            $("#defects").prop("checked", data.defects_safedrive === "1");
+            $("#operation").prop("checked", data.correct_defects === "1"); // Assuming you want this checkbox always checked
+            $("#mechanicsignature").val(data.mechanic_name);
+            $("#mechanicdate").val(data.mechanic_date);
+            $("#driverdate").val(data.driver_date);
+            $("#drivername").val(data.driver_name);
+
+            // Assuming data.truckContainer_data and data.trailerContainer_data are arrays
+            if (Array.isArray(data.truckContainer_data)) {
+                data.truckContainer_data.forEach(function (value) {
+                    $("#truckContainer input[value='" + value + "']").prop("checked", true);
+                });
+            }
+
+            if (Array.isArray(data.trailerContainer_data)) {
+                data.trailerContainer_data.forEach(function (value) {
+                    $("#trailerContainer input[value='" + value + "']").prop("checked", true);
+                });
+            }
         }
 
         function submit_data() {
@@ -292,10 +332,7 @@
                 console.log(entry[0] + ": " + entry[1]);
             }
 
-            console.log("trip id:", trip_data);
-
-
-            settripvehicleinspections(formData);
+            settripvehicleinspections(formData,shift_id);
             console.log(formData);
 
 

@@ -1084,7 +1084,7 @@ function settripvehicleinspections(formData) {
     driver = getUser();
     formData.append("driver_id", driver.id);
     formData.append("vehicle_id", driver.vehicle_id);
-    formData.append("trip_id", driver.trip_id);
+    formData.append("shift_id", shift_id);
     $.ajax({
         url: API_URL + "/settripvehicleinspections",
         type: "POST",
@@ -1097,6 +1097,25 @@ function settripvehicleinspections(formData) {
                 success('Vehicle Inspections Added!', 'You have successfully added vehicle inspection');
             }else {
                 error('Error!', formData);
+            }
+        }
+    });
+}
+
+function getVehicleInspectionsDataByTripId(shift_id) {
+    $.ajax({
+        "url": API_URL + "/getVehicleInspectionsDataByTripId",
+        "method": "POST",
+        "data": {
+            "shift_id": shift_id
+        },
+        dataType: "JSON",
+        success: function (data) {
+            if (data.status == 1) {
+                console.log(" Successfully Inspection Data Retreived:", data);
+                populateFormWithData(data.data); // Pass the data to displaycheckboxes
+            } else {
+                console.log("Data Retrieval Failed:", data);
             }
         }
     });
