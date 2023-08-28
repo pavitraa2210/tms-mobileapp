@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+	<meta name="theme-color" content="#0081C1" />
+	<title>ShipmentX Login</title>
+	<link href="assets/css/style.css" rel="stylesheet" />
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+</head>
+
+<body>
+	<div class="logo-top-login"></div>
+	<div class="vector"></div>
+	<div class="container">
+		<table width="100%" style="border-collapse: separate;border-spacing: 0 2em;">
+			<tbody>
+				<tr>
+					<td align="center" class="creds">
+						<input class="cred-input" type="text" name="username" placeholder="Username" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="creds">
+						<input class="cred-input" id="password" type="password" name="password" placeholder="Password" />
+						<img class="show-password" id="show-password" src="assets/img/show_password.svg" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<div type="submit" class="btn btn-primary btn-fill" onclick="login()" style="width: 69%;max-width: 400px;">
+							Sign In
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<a class="forgot-pass" href="#">Forgot Password?</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="version">v1.33</div>
+	<div class="version terms">Terms of Service</div>
+	<div class="version privacy">Privacy Policy</div>
+</body>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script>
+
+	if(isDriverLoggedIn()) {
+		window.location = "dashboard.html"
+	}
+
+	$(document).ready(function () {
+	var is_text = false;
+		$('#show-password').click( function () {
+			if(is_text) {
+				$('#password').attr("type", "password")
+				is_text = false
+			}
+			else {
+				$('#password').attr("type", "text")
+				is_text = true
+			}
+		});
+	});
+
+	function login() {
+		var mobile = $("[name='username']").val();
+		var password = $("[name='password']").val();
+		var token = randomString(12);
+		var imei = randomString(16);
+		var mobile_number = randomString(10);
+		if (mobile.length == 0 || password.length == 0) {
+			// alert("Mobile or password is missing");
+			warning('Insufficient Data', 'Mobile or password is missing!')
+			return;
+		}
+		driverLogin(mobile, password, token, imei, mobile_number);
+	}
+
+
+	function randomString(length) {
+		allowedCharacters = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		var ret = ''
+		for(i=0; i<length; i++) {
+			pos = Math.floor(Math.random() * allowedCharacters.length);
+			ret += allowedCharacters.charAt(pos)
+		}
+		return ret
+	}
+</script>
+
+</html>

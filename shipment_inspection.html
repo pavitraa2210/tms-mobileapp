@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <title>Vehicle Inspections</title>
+    <link href="assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <form name="myInspectionForm" id="myInspectionForm" method="POST" enctype="multipart/form-data">
+        <table style="border-collapse: collapse;">
+            <tbody>
+                <tr style="height: 64px;">
+                    <td>
+                        <a href="javascript:history.go(-1)" class="go-back-white">
+                            <img class="img-back" alt="Go back" src="assets/img/go-back.svg" />
+                        </a>
+                        <div class="order-number">
+                            Add Trip Vehicle Inspections
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody class="scroll" id="form">
+                <tr class="grad-container1" style="top: 10px; height: 118px;">
+                    <td class="grad-container-head1">Date</td>
+                </tr>
+                <tr class="field-contain" style="top: 50px;">
+                    <td>
+                        <input class="field-input" placeholder="Date and Time" type="datetime-local" id="datetime"
+                            name="inspection_time" step="1" />
+                    </td>
+                </tr>
+
+                <tr class="grad-container1" style="top:95px;">
+                    <td class="grad-container-head1" style="font-size: 15px;">Tractor/Truck No.</td>
+                </tr>
+                <tr class="field-contain" style="top: 135px;">
+                    <td>
+                        <input class="field-input" placeholder="Truck No" type="text" id="vehicle" name="vehicle_no"
+                            readonly />
+                    </td>
+                </tr>
+                <tr class="grad-container1" style="top:180px;">
+                    <td class="grad-container-head1" style="font-size: 15px;">Odometer</td>
+                </tr>
+                <tr class="field-contain" style="top:220px;">
+                    <td>
+                        <input class="field-input" placeholder="Odometer" type="text" id="odometer" name="odometer_reading"
+                            oninput="this.value = this.value.replace(/[^A-Za-z0-9\s]/g, '')" />
+                    </td>
+                </tr>
+
+                <tr class="grad-container1" style="margin-top: 210px;">
+                    <td class="grad-container-head1">
+                        <div class="checkbox-container" id="truckContainer" name="truck_inspection[]"></div>
+                    </td>
+                </tr>
+                <tr class="grad-container1" style="top:315px;">
+                    <td class="grad-container-head1" style="font-size: 15px; "> Trailer(s) No(s)o.</td>
+                </tr>
+                <tr class="field-contain" style="top: 355px;">
+                    <td>
+                        <input class="field-input" placeholder="Trailer No" type="text" id="trailer"
+                            name="trailer_no" oninput="this.value = this.value.replace(/[^A-Za-z0-9\s]/g, '')" />
+                    </td>
+                </tr>
+                <tr class="grad-container1" style="top: 400px;">
+                    <td class="grad-container-head1">
+                        <div class="trailercheckbox-container" id="trailerContainer" name="trailer_inspection[]"></div>
+                    </td>
+                </tr>
+
+                <tr class="grad-container1" style="top:455px;">
+                    <td class="grad-container-head1" style="font-size: 15px; "> Remarks</td>
+                </tr>
+                <tr class="field-contain" style="top: 495px;">
+                    <td>
+                        <input class="field-input" placeholder="Remarks" type="text" id="remark" name="remarks"
+                            oninput="this.value = this.value.replace(/[^A-Za-z0-9\s]/g, '')" />
+                    </td>
+                    <td>
+                        <input type="checkbox" class="custom-checkbox" id="condition" name="satisfactory_condition" value="1"><label
+                            for="condition" style="font-size: 14px; margin-top: 20px;">Condition of the above vehicle is
+                            satisfactory</label>
+                    </td>
+                </tr>
+                <tr class="grad-container1" style="top:580px;">
+                    <td class="grad-container-head1" style="font-size: 15px; ">Driver Signature</td>
+                </tr>
+                <tr class="field-contain" style="top: 620px;">
+                    <td>
+                        <input class="field-input" placeholder="Driver Signature" type="text" id="driversignature"
+                            name="driver_name" oninput="this.value = this.value.replace(/[^A-Za-z0-9\s]/g, '')" />
+                    </td>
+                    <td>
+                        <input type="checkbox" class="custom-checkbox" id="defects" name="defects_safedrive"
+                            value="1"><label for="defects">Above defects
+                            corrected</label>
+                        <div class="row">
+                            <input type="checkbox" id="operation" style="margin-top: 15px;" name="correct_defects"
+                                value="1"><label for="defects"> Above defects need not be corrected for safe operation
+                                of vehicle</label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="grad-container1" style="top:750px;">
+                    <td class="grad-container-head1" style="font-size: 15px;"> Mechanic's Signature</td>
+                    <td class="grad-container-head1" style="font-size: 15px; margin-left: 220px;"> Date</td>
+                </tr>
+
+                <tr>
+                    <td class="field-contain-half" style="top: 790px; width: 180px; background-color: white">
+                        <input class="field-input" placeholder="Mechanic Signature" id="mechanicsignature" type="text"
+                            name="mechanic_name" oninput="this.value = this.value.replace(/[^A-Za-z0-9\s]/g, '')">
+                    </td>
+                    <td class="field-contain-half" style="top: 790px; width: 120px;right: 0px;background-color: white;">
+                        <input class="field-input" placeholder="Date" id="mechanicdate" type="date"
+                            name="mechanic_date">
+                    </td>
+                </tr>
+                <tr class="grad-container1" style="top:835px;">
+                    <td class="grad-container-head1" style="font-size: 15px;"> Driver's Signature</td>
+                    <td class="grad-container-head1" style="font-size: 15px; margin-left: 220px;"> Date</td>
+                </tr>
+                <tr>
+                    <td class="field-contain-half" style="top: 870px; width: 180px; background-color: white">
+                        <input class="field-input" placeholder="Driver Signature" type="text" id="signature"
+                            name="driver_name" oninput="this.value = this.value.replace(/[^A-Za-z0-9\s]/g, '')" />
+                    </td>
+                    <td class="field-contain-half" style="top: 870px; width: 120px;right: 0px;background-color: white;">
+                        <input class="field-input" placeholder="Date" id="driverdate" type="date"
+                            name="driver_date">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="warning">
+                        <span id="warning" class="hidden">Error</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="navigation">
+        <div class="btn" id="submit">
+            <div class="text">Submit</div>
+        </div>
+    </div>
+    </div>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9DM7bHv4KTp7b0yChgfYBO1Xsgb5kLHk&v=3.exp&sensor=false&libraries=places"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/script.js?10"></script>
+    <script>
+        var datetime_data = null;
+        var vehicle_data = null;
+        var odometer_data = null;
+        var trailer_data = null;
+        var remark_data = null;
+        var condition_data = null;
+        var driversignature_data = null;
+        var defects_data = null;
+        var operation_data = null;
+        var mechanicsignature_data = null;
+        var mechanicdate_data = null;
+        var driverdate_data = null;
+        var truckContainer_data = null;
+        var trailerContainer_data = null;
+
+        $(document).ready(function () {
+            var sessData = getUser();
+            getInspectionTypes();
+
+            $("#vehicle").val(sessData.vehicle);
+            $("#trip").val(sessData.trip_id);
+            vehicle_data = sessData.vehicle_id;
+            trip_data = sessData.trip_id;
+
+            $('#datetime').change(function () {
+                datetime_data = this.value;
+            });
+
+            $('#vehicle').change(function () {
+                vehicle_data = this.value;
+            });
+
+            $('#odometer').change(function () {
+                odometer_data = this.value;
+            });
+
+            $('#trailer').change(function () {
+                trailer_data = this.value;
+            });
+
+            $('#remark').change(function () {
+                remark_data = this.value;
+            });
+
+            $('#condition').change(function () {
+                condition_data = this.checked;
+            });
+
+            $('#driversignature').change(function () {
+                driversignature_data = this.value;
+            });
+
+            $('#defects').change(function () {
+                defects_data = this.checked;
+            });
+
+            $('#operation').change(function () {
+                operation_data = this.checked;
+            });
+
+            $('#mechanicsignature').change(function () {
+                mechanicsignature_data = this.value;
+            });
+
+            $('#mechanicdate').change(function () {
+                mechanicdate_data = this.value;
+            });
+
+            $('#signature').change(function () {
+                driversignature_data = this.value;
+            });
+
+            $('#driverdate').change(function () {
+                driverdate_data = this.value;
+            });
+            
+            $('#trailerContainer input[type="checkbox"]').change(function () {
+                if (this.checked) {
+                    trailerContainer_data = $(this).val();
+                } else {
+                    trailerContainer_data = null;
+                }
+            });
+
+            $('#truckContainer input[type="checkbox"]').change(function () {
+                if (this.checked) {
+                    truckContainer_data = $(this).val();
+                } else {
+
+                    truckContainer_data = null;
+                }
+            });
+
+            $('#submit').click(function () {
+                submit_data();
+            });
+
+        });
+
+        function createCheckbox(id, label, type) {
+            const checkbox = `<input type="checkbox" class="" id="checkbox_${id}" name="${type}_inspections[]" value="${id}">
+                      <label for="checkbox_${id}">${label}</label>`;
+            return checkbox;
+        }
+
+        function displaycheckboxes(data) {
+            const truckContainer = document.getElementById("truckContainer");
+            const trailerContainer = document.getElementById("trailerContainer");
+
+            truckContainer.innerHTML = "";
+            trailerContainer.innerHTML = "";
+
+            // Create checkboxes for each truck inspection type
+            data.forEach(function (inspectionType) {
+                const checkbox = createCheckbox(inspectionType.id, inspectionType.name, "truck");
+
+                if (inspectionType.id >= 1 && inspectionType.id <= 5) {
+                    truckContainer.innerHTML += checkbox;
+                } else if (inspectionType.id >= 6 && inspectionType.id <= 9) {
+                    const checkbox = createCheckbox(inspectionType.id, inspectionType.name, "trailer");
+                    trailerContainer.innerHTML += checkbox;
+                }
+            });
+        }
+
+        function submit_data() {
+            var warn = document.getElementById("warning");
+            const scrollingElement = document.getElementById('form');
+
+            var formData = new FormData(document.getElementById('myInspectionForm'));
+
+            for (let entry of formData.entries()) {
+                console.log(entry[0] + ": " + entry[1]);
+            }
+
+            console.log("trip id:", trip_data);
+
+
+            settripvehicleinspections(formData);
+            console.log(formData);
+
+
+
+        }
+
+
+    </script>
+    </tbody>
+    </table>
+
+    </form>
+</body>
+
+</html>
